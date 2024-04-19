@@ -1,0 +1,107 @@
+package sg.security.api.service.user;
+
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import sg.security.api.dto.ChangePassword;
+import sg.security.api.dto.User;
+import sg.security.api.entity.user.UserJpa;
+import sg.security.api.exception.UserNotFoundException;
+import sg.security.api.mapper.UserMapper;
+import sg.security.api.repository.UserJpaRepository;
+
+import java.util.List;
+
+@Service
+@AllArgsConstructor
+@Transactional(readOnly = true)
+public class UserServiceImpl implements UserService {
+
+    private final @NonNull UserJpaRepository repository;
+    private final @NonNull PasswordEncoder passwordEncoder;
+    private final @NonNull UserMapper mapper;
+
+    @Override
+    public List<User> findAllUsers() {
+        return repository.findAllUsers().stream().map(mapper::toDTO).toList();
+    }
+
+    @Override
+    public User findById(Integer userId) {
+        return repository.findById(userId).map(mapper::toDTO).orElseThrow(() -> new UserNotFoundException(userId));
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return repository.findByEmail(email).map(mapper::toDTO).orElseThrow(() -> new UserNotFoundException(email));
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return repository.findByUsername(username).map(mapper::toDTO).orElseThrow(() -> new UserNotFoundException(username));
+    }
+
+    @Override
+    @Transactional
+    public void update(Integer userId, User user) {
+        repository.findById(userId).map(request -> {
+
+            request.setFirstname(user.getFirstname());
+            request.setLastname(user.getLastname());
+            request.setEmail(user.getEmail());
+            request.setBirthdate(user.getBirthdate());
+
+            return repository.save(request);
+
+        }).orElseThrow(() -> new UserNotFoundException(userId));
+    }
+
+    @Override
+    @Transactional
+    public void updateIsEnabled(Integer userId) {
+        repository.updateEnabled(userId);
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(ChangePassword request) {
+
+        var user = (UserJpa) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new IllegalStateException("Wrong password");
+        }
+
+        if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
+            throw new IllegalStateException("The new password is the same as the old password");
+        }
+
+        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+            throw new IllegalStateException("Password are not the same");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+        repository.updatePassword(user.getId(), user.getPassword());
+    }
+
+    @Override
+    @Transactional
+    public void delete(String username) {
+
+        var user = repository
+                .findByUsername(username).map(mapper::toDTO).orElseThrow(() -> new UserNotFoundException(username));
+
+        repository.deleteById(user.getId());
+    }
+
+    @Override
+    @Transactional
+    public void delete(Integer userId) {
+        repository.deleteById(userId);
+    }
+
+}

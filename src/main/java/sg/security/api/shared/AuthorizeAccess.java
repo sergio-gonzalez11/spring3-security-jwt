@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @PreAuthorize("hasAnyRole("
-        + "(T(sg.security.api.entity.role.RoleEnum).USER.getRoleName().toUpperCase()),"
+        + "(T(sg.security.api.entity.role.RoleEnum).BASIC.getRoleName().toUpperCase()),"
         + "(T(sg.security.api.entity.role.RoleEnum).ADMIN.getRoleName().toUpperCase()))")
 public @interface AuthorizeAccess {
 

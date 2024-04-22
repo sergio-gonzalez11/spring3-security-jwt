@@ -21,6 +21,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import sg.security.api.config.jwt.JwtAuthenticationFilter;
+import sg.security.api.constant.Constants;
 
 import java.util.List;
 
@@ -79,8 +80,10 @@ public class SecurityConfiguration {
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.setExposedHeaders(List.of("X-Auth-Token", "Authorization", "Access-Control-Allow-Origin",
-                "Access-Control-Allow-Credentials"));
+        config.setExposedHeaders(List.of(Constants.X_AUTH_TOKEN,
+                Constants.AUTHORIZATION,
+                Constants.ACCESS_CONTROL_ALLOW_ORIGIN,
+                Constants.ACCESS_CONTROL_ALLOW_CREDENTIAL));
         source.registerCorsConfiguration("/**", config);
         return source;
     }

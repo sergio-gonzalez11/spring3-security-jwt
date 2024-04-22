@@ -4,8 +4,6 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -28,11 +26,7 @@ import java.security.SignatureException;
 import java.util.List;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler /*extends ResponseEntityExceptionHandler*/ {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
-    private static final String MESSAGE = "Error: ";
+public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             AuthenticationCredentialsNotFoundException.class,
@@ -44,7 +38,6 @@ public class GlobalExceptionHandler /*extends ResponseEntityExceptionHandler*/ {
             EmailVerificationNotFoundException.class
     })
     public ResponseEntity<ApiError> handleNotFoundException(final RuntimeException ex) {
-        LOGGER.error(MESSAGE, ex);
         return ApiError.buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
@@ -63,7 +56,6 @@ public class GlobalExceptionHandler /*extends ResponseEntityExceptionHandler*/ {
             UserAlreadyExistsException.class
     })
     public ResponseEntity<ApiError> handleSecurityException(final RuntimeException ex) {
-        LOGGER.error(MESSAGE, ex);
         return ApiError.buildResponse(HttpStatus.FORBIDDEN, ex.getMessage());
     }
 
@@ -79,60 +71,7 @@ public class GlobalExceptionHandler /*extends ResponseEntityExceptionHandler*/ {
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .toList();
 
-        LOGGER.error(MESSAGE, ex);
         return ApiError.buildResponse(HttpStatus.BAD_REQUEST, errors);
     }
 
-
-   /* @ExceptionHandler({
-            AuthenticationCredentialsNotFoundException.class,
-            UserPrincipalNotFoundException.class,
-            AccountNotFoundException.class,
-            UserNotFoundException.class,
-            UsernameNotFoundException.class,
-            RoleNotFoundException.class,
-            EmailVerificationNotFoundException.class
-    })
-    public ResponseEntity<ApiError> handleNotFoundException(final Exception exception) {
-        LOGGER.error(MESSAGE, exception);
-        return ApiError.buildResponse(HttpStatus.NOT_FOUND, exception.getMessage());
-    }
-
-    @ExceptionHandler({
-            AccessDeniedException.class,
-            BadCredentialsException.class,
-            AccountStatusException.class,
-            SignatureException.class,
-            MalformedJwtException.class,
-            ExpiredJwtException.class,
-            UserAlreadyExistsException.class
-    })
-    public ResponseEntity<ApiError> handleSecurityException(final Exception exception) {
-        LOGGER.error(MESSAGE, exception);
-        return ApiError.buildResponse(HttpStatus.FORBIDDEN, exception.getMessage());
-    }
-
-    @ExceptionHandler({
-            NumberFormatException.class,
-            ConstraintViolationException.class,
-            ArithmeticException.class,
-            UnsatisfiedRequestParameterException.class,
-            IllegalStateException.class,
-            NullPointerException.class,
-            HttpMessageNotReadableException.class,
-            SQLException.class
-    })
-    public ResponseEntity<ApiError> handleBadRequestException(final Exception exception) {
-        LOGGER.error(MESSAGE, exception);
-        return ApiError.buildResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
-    }
-
-    @ExceptionHandler({
-            MessagingException.class,
-            UnsupportedEncodingException.class
-    })
-    public ResponseEntity<ApiError> handleEmailException(final Exception exception) {
-        LOGGER.error(MESSAGE, exception);
-        return ApiError.buildResponse(HttpStatus.CONFLICT, exception.getMessage());
-    }*/
 }

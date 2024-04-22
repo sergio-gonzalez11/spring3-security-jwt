@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sg.security.api.config.jwt.JwtUtils;
 import sg.security.api.config.util.UrlHelper;
+import sg.security.api.constant.Errors;
 import sg.security.api.dto.LoginRequest;
 import sg.security.api.dto.LoginResponse;
 import sg.security.api.dto.RegisterRequest;
@@ -96,7 +97,7 @@ public class AuthServiceImpl implements AuthService {
                 .findByToken(token).orElseThrow(() -> new EmailVerificationNotFoundException(token));
 
         if (Boolean.TRUE.equals(emailVerificationJpa.getUser().getIsEnabled())) {
-            throw new Exception("This account has already been verified, please, login.");
+            throw new Exception(Errors.ACCOUNT_VERIFIED);
         }
 
         this.isValidVerification(emailVerificationJpa);

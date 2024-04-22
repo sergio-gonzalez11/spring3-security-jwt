@@ -9,9 +9,8 @@ import java.util.List;
 @AllArgsConstructor
 public enum RoleEnum {
 
-    BASIC("accessBasic", "User with basic roles"),
-    USER("accessUser", "User with default roles"),
-    ADMIN("accessAdmin", "User with all roles");
+    BASIC("Basic", "User with basic roles"),
+    ADMIN("Admin", "User with all roles");
 
 
     @Getter
@@ -42,10 +41,6 @@ public enum RoleEnum {
 
     public static boolean isBasic(final List<String> roles) {
         return roles.stream().anyMatch(BASIC.roleName::equals);
-    }
-
-    public static boolean isUser(final List<String> roles) {
-        return roles.stream().anyMatch(USER.roleName::equals);
     }
 
     public static boolean isAdmin(final List<String> roles) {

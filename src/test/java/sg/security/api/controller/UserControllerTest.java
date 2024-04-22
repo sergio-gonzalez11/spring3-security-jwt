@@ -227,7 +227,11 @@ class UserControllerTest {
 
             doNothing().when(UserControllerTest.this.userService).changePassword(any());
 
-            final MvcResult mvcResult = this.performGet(ChangePassword.builder().currentPassword("currentPassword").newPassword("newPassword").confirmationPassword("confirmationPassword").build());
+            final MvcResult mvcResult = this.performGet(ChangePassword.builder()
+                    .currentPassword("currentPassword")
+                    .newPassword("newPassword")
+                    .confirmationPassword("confirmationPassword")
+                    .build());
 
             assertEquals(204, mvcResult.getResponse().getStatus());
             assertNotNull(mvcResult);

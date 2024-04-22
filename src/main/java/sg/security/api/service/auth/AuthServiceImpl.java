@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
                 .findByUsernameAndEmail(registerRequest.getUsername(), registerRequest.getEmail()).orElse(null);
 
         var roleJpa = roleJpaRepository
-                .findByName(RoleEnum.USER.getRoleName()).orElseThrow(RoleNotFoundException::new);
+                .findByName(RoleEnum.BASIC.getRoleName()).orElseThrow(RoleNotFoundException::new);
 
         if (Objects.nonNull(userJpa)) {
             throw new UserAlreadyExistsException(userJpa.getUsername());

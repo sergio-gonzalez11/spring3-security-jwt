@@ -16,10 +16,10 @@ public class RoleJpa implements Serializable {
     @Column(name = "ID_ROLE")
     private Integer id;
 
-    @Column(name = "Name", unique = true, nullable = false)
+    @Column(name = "NAME", unique = true, nullable = false)
     private String name;
 
-    @Column(name = "Description", unique = true, nullable = false)
+    @Column(name = "DESCRIPTION", unique = true, nullable = false)
     private String description;
 
 }

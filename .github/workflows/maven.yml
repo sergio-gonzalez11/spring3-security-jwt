@@ -32,23 +32,19 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Update db url
-      run: sed -i 's/${MARIADB_URL}/${{ secrets.MARIADB_URL }}/' src/main/resources/application-dev.yml
-
-    - name: Update db username
-      run: sed -i 's/${MARIADB_USER}/${{ secrets.MARIADB_USER }}/' src/main/resources/application-dev.yml
-
-    - name: Update db password
-      run: sed -i 's/${MARIADB_PASS}/${{ secrets.MARIADB_PASS }}/' src/main/resources/application-dev.yml
-
-    - name: Update mail username
-      run: sed -i 's/${MAIL_USER}/${{ secrets.MAIL_USER }}/' src/main/resources/application-dev.yml
-
-    - name: Update mail password
-      run: sed -i 's/${MAIL_PASS}/${{ secrets.MAIL_PASS }}/' src/main/resources/application-dev.yml
+    - name: Enviroment
+      run: |
+          echo "MARIADB_URL=${{ secrets.MARIADB_URL }}" >> $GITHUB_ENV
+          echo "MARIADB_USER=${{ secrets.MARIADB_USER }}" >> $GITHUB_ENV
+          echo "MARIADB_PASS=${{ secrets.MARIADB_PASS }}" >> $GITHUB_ENV
+          echo "MAIL_USER=${{ secrets.MAIL_USER }}" >> $GITHUB_ENV
+          echo "MAIL_PASS=${{ secrets.MAIL_PASS }}" >> $GITHUB_ENV
 
 
-        # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
+    - name: Run tests
+      run: mvn test
+
+    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Submit Dependency Snapshot
       uses: advanced-security/maven-dependency-submission-action@v3
 

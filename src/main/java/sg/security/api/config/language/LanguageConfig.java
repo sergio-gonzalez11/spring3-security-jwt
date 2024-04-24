@@ -1,4 +1,4 @@
-package sg.security.api.config;
+package sg.security.api.config.language;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

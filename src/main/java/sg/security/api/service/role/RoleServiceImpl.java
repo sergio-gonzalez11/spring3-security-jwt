@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sg.security.api.dto.Role;
+import sg.security.api.dto.role.Role;
 import sg.security.api.exception.RoleNotFoundException;
 import sg.security.api.mapper.RoleMapper;
-import sg.security.api.repository.RoleJpaRepository;
+import sg.security.api.repository.role.RoleJpaRepository;
 
 import java.util.List;
 

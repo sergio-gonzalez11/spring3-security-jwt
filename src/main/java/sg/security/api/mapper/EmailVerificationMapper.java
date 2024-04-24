@@ -1,8 +1,8 @@
 package sg.security.api.mapper;
 
 import org.mapstruct.Mapper;
-import sg.security.api.dto.EmailVerification;
-import sg.security.api.entity.emailVerification.EmailVerificationJpa;
+import sg.security.api.dto.auth.EmailVerification;
+import sg.security.api.entity.email.EmailVerificationJpa;
 
 import java.util.List;
 

@@ -1,19 +1,22 @@
 package sg.security.api.service.user;
 
+import jakarta.validation.ValidationException;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sg.security.api.dto.ChangePassword;
-import sg.security.api.dto.User;
+import sg.security.api.dto.user.ChangePassword;
+import sg.security.api.dto.user.User;
 import sg.security.api.entity.user.UserJpa;
 import sg.security.api.exception.UserNotFoundException;
 import sg.security.api.mapper.UserMapper;
-import sg.security.api.repository.UserJpaRepository;
+import sg.security.api.repository.user.UserJpaRepository;
 
 import java.util.List;
+
+import static sg.security.api.constant.Errors.*;
 
 @Service
 @AllArgsConstructor
@@ -72,15 +75,15 @@ public class UserServiceImpl implements UserService {
         var user = (UserJpa) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
 
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-            throw new IllegalStateException("Wrong password");
+            throw new ValidationException(WRONG_PASSWORD);
         }
 
         if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
-            throw new IllegalStateException("The new password is the same as the old password");
+            throw new ValidationException(DIFFERENT_PASSWORD);
         }
 
         if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
-            throw new IllegalStateException("Password are not the same");
+            throw new ValidationException(PASSWORD_NOT_MATCHING);
         }
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));

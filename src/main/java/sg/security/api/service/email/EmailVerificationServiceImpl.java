@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sg.security.api.dto.EmailVerification;
-import sg.security.api.dto.User;
+import sg.security.api.dto.auth.EmailVerification;
+import sg.security.api.dto.user.User;
 import sg.security.api.exception.EmailVerificationNotFoundException;
 import sg.security.api.mapper.EmailVerificationMapper;
-import sg.security.api.repository.EmailVerificationJpaRepository;
+import sg.security.api.repository.email.EmailVerificationJpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -60,11 +61,7 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
         repository.deleteByUserId(userId);
     }
 
-    public Date getTokenExpirationTime() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(new Date().getTime());
-        calendar.add(Calendar.MINUTE, EXPIRATION_TIME);
-        return new Date(calendar.getTime().getTime());
+    public LocalDateTime getTokenExpirationTime() {
+        return LocalDateTime.now().plusMinutes(EXPIRATION_TIME);
     }
-
 }

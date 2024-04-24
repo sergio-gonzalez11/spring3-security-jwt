@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import sg.security.api.config.jwt.JwtUtils;
 import sg.security.api.config.util.UrlHelper;
 import sg.security.api.constant.Errors;
-import sg.security.api.dto.LoginRequest;
-import sg.security.api.dto.LoginResponse;
-import sg.security.api.dto.RegisterRequest;
-import sg.security.api.entity.emailVerification.EmailVerificationJpa;
-import sg.security.api.entity.role.RoleEnum;
+import sg.security.api.dto.auth.LoginRequest;
+import sg.security.api.dto.auth.LoginResponse;
+import sg.security.api.dto.auth.RegisterRequest;
+import sg.security.api.dto.role.RoleEnum;
+import sg.security.api.entity.email.EmailVerificationJpa;
 import sg.security.api.entity.role.RoleJpa;
 import sg.security.api.entity.user.UserJpa;
 import sg.security.api.event.EmailEvent;
@@ -25,10 +25,11 @@ import sg.security.api.exception.RoleNotFoundException;
 import sg.security.api.exception.UserAlreadyExistsException;
 import sg.security.api.exception.UserNotFoundException;
 import sg.security.api.mapper.UserMapper;
-import sg.security.api.repository.EmailVerificationJpaRepository;
-import sg.security.api.repository.RoleJpaRepository;
-import sg.security.api.repository.UserJpaRepository;
+import sg.security.api.repository.email.EmailVerificationJpaRepository;
+import sg.security.api.repository.role.RoleJpaRepository;
+import sg.security.api.repository.user.UserJpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -65,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void register(RegisterRequest registerRequest, HttpServletRequest request) throws Exception {
+    public void register(RegisterRequest registerRequest, HttpServletRequest request) {
 
         var userJpa = userJpaRepository
                 .findByUsernameAndEmail(registerRequest.getUsername(), registerRequest.getEmail()).orElse(null);
@@ -105,14 +106,13 @@ public class AuthServiceImpl implements AuthService {
 
     private void isValidVerification(EmailVerificationJpa emailVerificationJpa) {
 
-        var userJpa = emailVerificationJpa.getUser();
+        if (emailVerificationJpa.getExpirationTime().isBefore(LocalDateTime.now())) {
 
-        Calendar calendar = Calendar.getInstance();
-
-        if ((emailVerificationJpa.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             emailVerificationJpaRepository.deleteById(emailVerificationJpa.getId());
 
         } else {
+
+            var userJpa = emailVerificationJpa.getUser();
 
             userJpaRepository.updateEnabled(userJpa.getId());
         }

@@ -9,9 +9,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import sg.security.api.data.UserData;
-import sg.security.api.data.UserJpaData;
-import sg.security.api.repository.UserJpaRepository;
+import sg.security.api.data.dto.UserData;
+import sg.security.api.data.jpa.UserJpaData;
+import sg.security.api.repository.user.UserJpaRepository;
 import sg.security.api.service.user.UserDetailsServiceImpl;
 
 import java.util.Optional;

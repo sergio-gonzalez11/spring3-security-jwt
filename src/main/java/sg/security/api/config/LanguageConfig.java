@@ -10,11 +10,11 @@ import java.util.Locale;
 @Configuration
 public class LanguageConfig {
 
-    @Bean
+  /*  @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
         sessionLocaleResolver.setDefaultLocale(Locale.ENGLISH);
         return sessionLocaleResolver;
-    }
+    }*/
 
 }

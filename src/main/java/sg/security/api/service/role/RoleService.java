@@ -1,6 +1,6 @@
 package sg.security.api.service.role;
 
-import sg.security.api.dto.Role;
+import sg.security.api.dto.role.Role;
 
 import java.util.List;
 

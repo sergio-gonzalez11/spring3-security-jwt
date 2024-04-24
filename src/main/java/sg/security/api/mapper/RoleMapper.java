@@ -1,8 +1,8 @@
 package sg.security.api.mapper;
 
 import org.mapstruct.Mapper;
-import sg.security.api.dto.CreateRole;
-import sg.security.api.dto.Role;
+import sg.security.api.dto.role.CreateRole;
+import sg.security.api.dto.role.Role;
 import sg.security.api.entity.role.RoleJpa;
 
 import java.util.List;

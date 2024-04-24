@@ -5,11 +5,11 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import sg.security.api.constant.Constants;
 import sg.security.api.entity.user.UserJpa;
 
 import java.util.Optional;
 
-@Component
 public class AuditorAwareImpl implements AuditorAware<String> {
 
     @Override
@@ -24,7 +24,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
         if (authentication == null || !authentication.isAuthenticated()
                 || authentication instanceof AnonymousAuthenticationToken) {
 
-            return Optional.empty();
+            return Optional.of(Constants.USER_APPLICATION);
         }
 
         UserJpa userPrincipal = (UserJpa) authentication.getPrincipal();

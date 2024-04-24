@@ -11,7 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import sg.security.api.dto.User;
+import sg.security.api.dto.user.User;
 import sg.security.api.service.email.EmailVerificationService;
 
 import java.io.UnsupportedEncodingException;

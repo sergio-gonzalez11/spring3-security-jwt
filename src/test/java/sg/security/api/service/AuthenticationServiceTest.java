@@ -15,25 +15,28 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import sg.security.api.config.jwt.JwtUtils;
 import sg.security.api.config.util.UrlHelper;
-import sg.security.api.data.*;
-import sg.security.api.dto.LoginRequest;
-import sg.security.api.dto.LoginResponse;
-import sg.security.api.dto.RegisterRequest;
-import sg.security.api.dto.User;
-import sg.security.api.entity.emailVerification.EmailVerificationJpa;
+import sg.security.api.data.dto.LoginRequestData;
+import sg.security.api.data.dto.RegisterRequestData;
+import sg.security.api.data.dto.UserData;
+import sg.security.api.data.jpa.EmailVerificationJpaData;
+import sg.security.api.data.jpa.RoleJpaData;
+import sg.security.api.data.jpa.UserJpaData;
+import sg.security.api.dto.auth.LoginRequest;
+import sg.security.api.dto.auth.LoginResponse;
+import sg.security.api.dto.auth.RegisterRequest;
+import sg.security.api.dto.user.User;
+import sg.security.api.entity.email.EmailVerificationJpa;
 import sg.security.api.entity.role.RoleJpa;
 import sg.security.api.entity.user.UserJpa;
 import sg.security.api.event.EmailEvent;
 import sg.security.api.exception.UserNotFoundException;
 import sg.security.api.mapper.UserMapper;
-import sg.security.api.repository.EmailVerificationJpaRepository;
-import sg.security.api.repository.RoleJpaRepository;
-import sg.security.api.repository.UserJpaRepository;
+import sg.security.api.repository.email.EmailVerificationJpaRepository;
+import sg.security.api.repository.role.RoleJpaRepository;
+import sg.security.api.repository.user.UserJpaRepository;
 import sg.security.api.service.auth.AuthServiceImpl;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -78,11 +81,11 @@ class AuthenticationServiceTest {
 
     RoleJpaData roleJpaData;
 
-    RegisterRequestDTOData registerRequestDTOData;
+    RegisterRequestData registerRequestData;
 
     UserData userData;
 
-    LoginRequestDTOData loginRequestDTOData;
+    LoginRequestData loginRequestData;
 
     EmailVerificationJpaData emailVerificationJpaData;
 
@@ -90,9 +93,9 @@ class AuthenticationServiceTest {
     void setUp() {
         this.userJpaData = new UserJpaData();
         this.roleJpaData = new RoleJpaData();
-        this.registerRequestDTOData = new RegisterRequestDTOData();
+        this.registerRequestData = new RegisterRequestData();
         this.userData = new UserData();
-        this.loginRequestDTOData = new LoginRequestDTOData();
+        this.loginRequestData = new LoginRequestData();
         this.emailVerificationJpaData = new EmailVerificationJpaData();
     }
 
@@ -103,7 +106,7 @@ class AuthenticationServiceTest {
         @Test
         void loginIsOk() {
 
-            LoginRequest loginRequest = loginRequestDTOData.get(1);
+            LoginRequest loginRequest = loginRequestData.get(1);
             UserJpa userJpa = userJpaData.get(1);
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
@@ -121,7 +124,7 @@ class AuthenticationServiceTest {
         @Test
         void loginNotFoundException() {
 
-            LoginRequest loginRequest = loginRequestDTOData.get(1);
+            LoginRequest loginRequest = loginRequestData.get(1);
 
             when(AuthenticationServiceTest.this.authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(null);
 
@@ -138,7 +141,7 @@ class AuthenticationServiceTest {
         @Test
         void registerIsOk() throws Exception {
 
-            RegisterRequest registerRequest = registerRequestDTOData.get(1);
+            RegisterRequest registerRequest = registerRequestData.get(1);
             User user = userData.get(1);
 
             RoleJpa roleJpa = roleJpaData.get(1);
@@ -168,7 +171,7 @@ class AuthenticationServiceTest {
         @Test
         void registerUserAlreadyExistsException() {
 
-            RegisterRequest registerRequest = registerRequestDTOData.get(1);
+            RegisterRequest registerRequest = registerRequestData.get(1);
 
             RoleJpa roleJpa = roleJpaData.get(1);
             UserJpa userJpa = userJpaData.get(1);
@@ -194,17 +197,16 @@ class AuthenticationServiceTest {
         @Test
         void sendEmailConfirmationNotExpiratedIsOk() throws Exception {
 
-            Instant instant = Instant.now();
-            Instant futureInstant = instant.plus(15, ChronoUnit.MINUTES);
+            int EXPIRATION_TIME = 15;
 
             UserJpa userJpa = userJpaData.get(1);
             userJpa.setIsEnabled(Boolean.FALSE);
 
             EmailVerificationJpa emailVerificationJpa = emailVerificationJpaData.get(1);
-            emailVerificationJpa.setExpirationTime(Date.from(futureInstant));
+            emailVerificationJpa.setExpirationTime(LocalDateTime.now().plusMinutes(EXPIRATION_TIME));
             emailVerificationJpa.setUser(userJpa);
 
-            when(AuthenticationServiceTest.this.emailVerificationJpaRepository.findByToken(anyString())).thenReturn(Optional.ofNullable(emailVerificationJpa));
+            when(AuthenticationServiceTest.this.emailVerificationJpaRepository.findByToken(anyString())).thenReturn(Optional.of(emailVerificationJpa));
             doNothing().when(AuthenticationServiceTest.this.userJpaRepository).updateEnabled(anyInt());
 
 
@@ -224,8 +226,9 @@ class AuthenticationServiceTest {
 
             EmailVerificationJpa emailVerificationJpa = emailVerificationJpaData.get(1);
             emailVerificationJpa.setUser(userJpa);
+            emailVerificationJpa.setExpirationTime(LocalDateTime.now());
 
-            when(AuthenticationServiceTest.this.emailVerificationJpaRepository.findByToken(anyString())).thenReturn(Optional.ofNullable(emailVerificationJpa));
+            when(AuthenticationServiceTest.this.emailVerificationJpaRepository.findByToken(anyString())).thenReturn(Optional.of(emailVerificationJpa));
             doNothing().when(AuthenticationServiceTest.this.emailVerificationJpaRepository).deleteById(anyInt());
 
 
@@ -246,7 +249,7 @@ class AuthenticationServiceTest {
             EmailVerificationJpa emailVerificationJpa = emailVerificationJpaData.get(1);
             emailVerificationJpa.setUser(userJpa);
 
-            when(AuthenticationServiceTest.this.emailVerificationJpaRepository.findByToken(anyString())).thenReturn(Optional.ofNullable(emailVerificationJpa));
+            when(AuthenticationServiceTest.this.emailVerificationJpaRepository.findByToken(anyString())).thenReturn(Optional.of(emailVerificationJpa));
 
 
             assertThrows(Exception.class, () -> AuthenticationServiceTest.this.authService.sendEmailConfirmation(emailVerificationJpa.getToken()));

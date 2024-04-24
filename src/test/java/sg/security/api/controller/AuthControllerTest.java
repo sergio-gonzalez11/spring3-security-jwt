@@ -13,11 +13,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import sg.security.api.data.LoginRequestDTOData;
-import sg.security.api.data.LoginResponseDTOData;
-import sg.security.api.data.RegisterRequestDTOData;
-import sg.security.api.dto.LoginRequest;
-import sg.security.api.dto.RegisterRequest;
+import sg.security.api.data.dto.LoginRequestData;
+import sg.security.api.data.dto.LoginResponseData;
+import sg.security.api.data.dto.RegisterRequestData;
+import sg.security.api.dto.auth.LoginRequest;
+import sg.security.api.dto.auth.RegisterRequest;
 import sg.security.api.service.auth.AuthServiceImpl;
 
 import java.util.UUID;
@@ -38,17 +38,17 @@ class AuthControllerTest {
     @Mock
     AuthServiceImpl authService;
     MockMvc mockMvc;
-    LoginRequestDTOData loginRequestDTOData;
-    LoginResponseDTOData loginResponseDTOData;
-    RegisterRequestDTOData registerRequestDTOData;
+    LoginRequestData loginRequestData;
+    LoginResponseData loginResponseData;
+    RegisterRequestData registerRequestData;
     String token;
 
     @BeforeEach
     void setUp() {
 
-        this.loginRequestDTOData = new LoginRequestDTOData();
-        this.loginResponseDTOData = new LoginResponseDTOData();
-        this.registerRequestDTOData = new RegisterRequestDTOData();
+        this.loginRequestData = new LoginRequestData();
+        this.loginResponseData = new LoginResponseData();
+        this.registerRequestData = new RegisterRequestData();
         this.token = UUID.randomUUID().toString();
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.authController).build();
 
@@ -69,9 +69,9 @@ class AuthControllerTest {
         @Test
         void whenLoginIsOk() throws Exception {
 
-            when(AuthControllerTest.this.authService.login(any())).thenReturn(loginResponseDTOData.get(1));
+            when(AuthControllerTest.this.authService.login(any())).thenReturn(loginResponseData.get(1));
 
-            final MvcResult mvcResult = this.performGet(loginRequestDTOData.get(1));
+            final MvcResult mvcResult = this.performGet(loginRequestData.get(1));
 
             assertEquals(200, mvcResult.getResponse().getStatus());
             assertNotNull(mvcResult);
@@ -110,7 +110,7 @@ class AuthControllerTest {
 
             doNothing().when(AuthControllerTest.this.authService).register(any(), any());
 
-            final MvcResult mvcResult = this.performGet(registerRequestDTOData.get(1));
+            final MvcResult mvcResult = this.performGet(registerRequestData.get(1));
 
             assertEquals(204, mvcResult.getResponse().getStatus());
             assertNotNull(mvcResult);

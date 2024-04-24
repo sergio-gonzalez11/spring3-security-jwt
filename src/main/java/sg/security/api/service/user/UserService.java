@@ -1,7 +1,7 @@
 package sg.security.api.service.user;
 
-import sg.security.api.dto.ChangePassword;
-import sg.security.api.dto.User;
+import sg.security.api.dto.user.ChangePassword;
+import sg.security.api.dto.user.User;
 
 import java.util.List;
 

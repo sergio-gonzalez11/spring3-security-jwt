@@ -13,10 +13,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import sg.security.api.data.*;
-import sg.security.api.dto.ChangePassword;
-import sg.security.api.dto.LoginRequest;
-import sg.security.api.dto.User;
+import sg.security.api.data.dto.LoginRequestData;
+import sg.security.api.data.dto.LoginResponseData;
+import sg.security.api.data.dto.RegisterRequestData;
+import sg.security.api.data.dto.UserData;
+import sg.security.api.data.jpa.UserJpaData;
+import sg.security.api.dto.auth.LoginRequest;
+import sg.security.api.dto.user.ChangePassword;
+import sg.security.api.dto.user.User;
 import sg.security.api.mapper.RoleMapper;
 import sg.security.api.service.email.EmailVerificationService;
 import sg.security.api.service.user.UserService;
@@ -48,11 +52,11 @@ class UserControllerTest {
     LoginRequest loginRequest;
 
 
-    LoginRequestDTOData loginRequestDTOData;
+    LoginRequestData loginRequestData;
 
-    LoginResponseDTOData loginResponseDTOData;
+    LoginResponseData loginResponseData;
 
-    RegisterRequestDTOData registerRequestDTOData;
+    RegisterRequestData registerRequestData;
 
     UserData userData;
 
@@ -63,10 +67,10 @@ class UserControllerTest {
     @BeforeEach
     void setUp() {
 
-        this.registerRequestDTOData = new RegisterRequestDTOData();
-        this.loginRequestDTOData = new LoginRequestDTOData();
-        this.loginResponseDTOData = new LoginResponseDTOData();
-        this.registerRequestDTOData = new RegisterRequestDTOData();
+        this.registerRequestData = new RegisterRequestData();
+        this.loginRequestData = new LoginRequestData();
+        this.loginResponseData = new LoginResponseData();
+        this.registerRequestData = new RegisterRequestData();
         this.token = String.valueOf(UUID.randomUUID());
         this.userData = new UserData();
         this.userJpaData = new UserJpaData();
@@ -113,7 +117,7 @@ class UserControllerTest {
 
 
         @Test
-        void userIsOk() throws Exception {
+        void userIdIsOk() throws Exception {
 
             when(UserControllerTest.this.userService.findById(anyInt())).thenReturn(userData.get(1));
 
@@ -167,7 +171,7 @@ class UserControllerTest {
 
 
         @Test
-        void usernameIsOk() throws Exception {
+        void emailIsOk() throws Exception {
 
             when(UserControllerTest.this.userService.findByEmail(anyString())).thenReturn(userData.get(1));
 
@@ -210,7 +214,7 @@ class UserControllerTest {
     }
 
     @Nested
-    class Change {
+    class Password {
 
         private MvcResult performGet(ChangePassword changePassword) throws Exception {
 
@@ -223,11 +227,15 @@ class UserControllerTest {
 
 
         @Test
-        void changeIsOk() throws Exception {
+        void changePasswordIsOk() throws Exception {
 
             doNothing().when(UserControllerTest.this.userService).changePassword(any());
 
-            final MvcResult mvcResult = this.performGet(ChangePassword.builder().currentPassword("currentPassword").newPassword("newPassword").confirmationPassword("confirmationPassword").build());
+            final MvcResult mvcResult = this.performGet(ChangePassword.builder()
+                    .currentPassword("currentPassword")
+                    .newPassword("newPassword")
+                    .confirmationPassword("newPassword")
+                    .build());
 
             assertEquals(204, mvcResult.getResponse().getStatus());
             assertNotNull(mvcResult);

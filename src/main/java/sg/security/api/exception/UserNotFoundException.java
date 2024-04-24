@@ -1,18 +1,20 @@
 package sg.security.api.exception;
 
+import sg.security.api.constant.Errors;
+
 public class UserNotFoundException extends RuntimeException {
 
 
-    public UserNotFoundException(Throwable cause) {
-        super(cause);
+    public UserNotFoundException() {
+        super();
     }
 
     public UserNotFoundException(final Integer object) {
-        super("User not found: " + object);
+        super(Errors.USER_NOT_FOUND + object);
     }
 
-    public UserNotFoundException(final String object) {
-        super("User not found: ".concat(object));
+    public UserNotFoundException(final String username) {
+        super(Errors.USERNAME_NOT_FOUND.concat(username));
     }
 
 }

@@ -1,8 +1,8 @@
 package sg.security.api.mapper;
 
 import org.mapstruct.Mapper;
-import sg.security.api.dto.RegisterRequest;
-import sg.security.api.dto.User;
+import sg.security.api.dto.auth.RegisterRequest;
+import sg.security.api.dto.user.User;
 import sg.security.api.entity.user.UserJpa;
 
 import java.util.List;

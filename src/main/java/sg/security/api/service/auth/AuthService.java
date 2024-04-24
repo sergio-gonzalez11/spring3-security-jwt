@@ -1,9 +1,9 @@
 package sg.security.api.service.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
-import sg.security.api.dto.LoginRequest;
-import sg.security.api.dto.LoginResponse;
-import sg.security.api.dto.RegisterRequest;
+import sg.security.api.dto.auth.LoginRequest;
+import sg.security.api.dto.auth.LoginResponse;
+import sg.security.api.dto.auth.RegisterRequest;
 
 public interface AuthService {
 

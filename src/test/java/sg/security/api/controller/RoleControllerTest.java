@@ -12,9 +12,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import sg.security.api.data.*;
-import sg.security.api.dto.CreateRole;
-import sg.security.api.dto.LoginRequest;
+import sg.security.api.data.dto.LoginRequestData;
+import sg.security.api.data.dto.LoginResponseData;
+import sg.security.api.data.dto.RegisterRequestData;
+import sg.security.api.data.dto.RoleData;
+import sg.security.api.data.jpa.UserJpaData;
+import sg.security.api.dto.auth.LoginRequest;
+import sg.security.api.dto.role.CreateRole;
 import sg.security.api.mapper.RoleMapper;
 import sg.security.api.service.auth.AuthServiceImpl;
 import sg.security.api.service.role.RoleServiceImpl;
@@ -49,11 +53,11 @@ class RoleControllerTest {
     LoginRequest loginRequest;
 
 
-    LoginRequestDTOData loginRequestDTOData;
+    LoginRequestData loginRequestData;
 
-    LoginResponseDTOData loginResponseDTOData;
+    LoginResponseData loginResponseData;
 
-    RegisterRequestDTOData registerRequestDTOData;
+    RegisterRequestData registerRequestData;
 
     RoleData roleData;
 
@@ -64,10 +68,10 @@ class RoleControllerTest {
     @BeforeEach
     void setUp() {
 
-        this.registerRequestDTOData = new RegisterRequestDTOData();
-        this.loginRequestDTOData = new LoginRequestDTOData();
-        this.loginResponseDTOData = new LoginResponseDTOData();
-        this.registerRequestDTOData = new RegisterRequestDTOData();
+        this.registerRequestData = new RegisterRequestData();
+        this.loginRequestData = new LoginRequestData();
+        this.loginResponseData = new LoginResponseData();
+        this.registerRequestData = new RegisterRequestData();
         this.token = String.valueOf(UUID.randomUUID());
         this.roleData = new RoleData();
         this.userJpaData = new UserJpaData();

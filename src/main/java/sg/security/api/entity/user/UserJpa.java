@@ -12,7 +12,9 @@ import sg.security.api.entity.AuditingEntityJpa;
 import sg.security.api.entity.role.RoleJpa;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -45,13 +47,12 @@ public class UserJpa extends AuditingEntityJpa implements UserDetails {
     @Column(name = "BIRTHDATE", nullable = false)
     private LocalDate birthdate;
 
-    @OneToOne
-    @JoinColumn(name = "ID_ROLE", referencedColumnName = "ID_ROLE", nullable = false)
-    private RoleJpa role;
-
     @Column(name = "IS_ENABLED", nullable = false, columnDefinition = "DECIMAL(1,0)")
     @Convert(converter = NumericBooleanConverter.class)
     private Boolean isEnabled = false;
+    @OneToOne
+    @JoinColumn(name = "ID_ROLE", referencedColumnName = "ID_ROLE", nullable = false)
+    private RoleJpa role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

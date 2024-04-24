@@ -11,11 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sg.security.api.config.jwt.JwtUtils;
 import sg.security.api.config.util.UrlHelper;
-import sg.security.api.dto.LoginRequest;
-import sg.security.api.dto.LoginResponse;
-import sg.security.api.dto.RegisterRequest;
-import sg.security.api.entity.emailVerification.EmailVerificationJpa;
-import sg.security.api.entity.role.RoleEnum;
+import sg.security.api.constant.Errors;
+import sg.security.api.dto.auth.LoginRequest;
+import sg.security.api.dto.auth.LoginResponse;
+import sg.security.api.dto.auth.RegisterRequest;
+import sg.security.api.dto.role.RoleEnum;
+import sg.security.api.entity.email.EmailVerificationJpa;
 import sg.security.api.entity.role.RoleJpa;
 import sg.security.api.entity.user.UserJpa;
 import sg.security.api.event.EmailEvent;
@@ -24,10 +25,11 @@ import sg.security.api.exception.RoleNotFoundException;
 import sg.security.api.exception.UserAlreadyExistsException;
 import sg.security.api.exception.UserNotFoundException;
 import sg.security.api.mapper.UserMapper;
-import sg.security.api.repository.EmailVerificationJpaRepository;
-import sg.security.api.repository.RoleJpaRepository;
-import sg.security.api.repository.UserJpaRepository;
+import sg.security.api.repository.email.EmailVerificationJpaRepository;
+import sg.security.api.repository.role.RoleJpaRepository;
+import sg.security.api.repository.user.UserJpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -64,13 +66,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void register(RegisterRequest registerRequest, HttpServletRequest request) throws Exception {
+    public void register(RegisterRequest registerRequest, HttpServletRequest request) {
 
         var userJpa = userJpaRepository
                 .findByUsernameAndEmail(registerRequest.getUsername(), registerRequest.getEmail()).orElse(null);
 
         var roleJpa = roleJpaRepository
-                .findByName(RoleEnum.USER.getRoleName()).orElseThrow(RoleNotFoundException::new);
+                .findByName(RoleEnum.BASIC.getRoleName()).orElseThrow(RoleNotFoundException::new);
 
         if (Objects.nonNull(userJpa)) {
             throw new UserAlreadyExistsException(userJpa.getUsername());
@@ -96,7 +98,7 @@ public class AuthServiceImpl implements AuthService {
                 .findByToken(token).orElseThrow(() -> new EmailVerificationNotFoundException(token));
 
         if (Boolean.TRUE.equals(emailVerificationJpa.getUser().getIsEnabled())) {
-            throw new Exception("This account has already been verified, please, login.");
+            throw new Exception(Errors.ACCOUNT_VERIFIED);
         }
 
         this.isValidVerification(emailVerificationJpa);
@@ -104,14 +106,13 @@ public class AuthServiceImpl implements AuthService {
 
     private void isValidVerification(EmailVerificationJpa emailVerificationJpa) {
 
-        var userJpa = emailVerificationJpa.getUser();
+        if (emailVerificationJpa.getExpirationTime().isBefore(LocalDateTime.now())) {
 
-        Calendar calendar = Calendar.getInstance();
-
-        if ((emailVerificationJpa.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             emailVerificationJpaRepository.deleteById(emailVerificationJpa.getId());
 
         } else {
+
+            var userJpa = emailVerificationJpa.getUser();
 
             userJpaRepository.updateEnabled(userJpa.getId());
         }

@@ -1,7 +1,7 @@
 package sg.security.api.service.email;
 
-import sg.security.api.dto.EmailVerification;
-import sg.security.api.dto.User;
+import sg.security.api.dto.auth.EmailVerification;
+import sg.security.api.dto.user.User;
 
 public interface EmailVerificationService {
 

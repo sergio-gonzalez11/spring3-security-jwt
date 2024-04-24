@@ -1,3 +1,4 @@
+
 INSERT INTO ROLE (ID_ROLE, NAME, DESCRIPTION) VALUES (1, 'basic', 'user with default roles');
 INSERT INTO ROLE (ID_ROLE, NAME, DESCRIPTION) VALUES (2, 'admin', 'user with all roles');
 

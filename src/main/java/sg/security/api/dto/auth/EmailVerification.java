@@ -20,9 +20,6 @@ public class EmailVerification {
     private LocalDateTime expirationTime;
 
     @Builder.Default
-    private Boolean revoked = false;
-
-    @Builder.Default
     private Boolean expired = false;
 
     private User user;

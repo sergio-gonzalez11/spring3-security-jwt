@@ -4,6 +4,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import sg.security.api.constant.Constants;
 import sg.security.api.exception.EmailVerificationNotFoundException;
 import sg.security.api.exception.RoleNotFoundException;
 import sg.security.api.exception.UserAlreadyExistsException;
@@ -25,24 +27,30 @@ import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.security.SignatureException;
 import java.util.List;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({
-            AuthenticationCredentialsNotFoundException.class,
-            UserPrincipalNotFoundException.class,
-            AccountNotFoundException.class,
-            UserNotFoundException.class,
-            UsernameNotFoundException.class,
-            RoleNotFoundException.class,
-            EmailVerificationNotFoundException.class
+            MethodArgumentNotValidException.class,
+            ConstraintViolationException.class,
+            IllegalArgumentException.class,
+            ValidationException.class
     })
-    public ResponseEntity<ApiError> handleNotFoundException(final RuntimeException ex) {
-        return ApiError.buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    public ResponseEntity<ApiError> handleBadRequestException(final MethodArgumentNotValidException ex) {
+
+        List<String> errors = ex.getBindingResult().getFieldErrors()
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .toList();
+
+        log.info(Constants.MESSAGE, errors);
+        return ApiError.buildResponse(HttpStatus.BAD_REQUEST, errors);
     }
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ApiError> handleAuthenticationException(final RuntimeException ex) {
+        log.info(Constants.MESSAGE, ex.getMessage());
         return ApiError.buildResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
 
@@ -56,22 +64,22 @@ public class GlobalExceptionHandler {
             UserAlreadyExistsException.class
     })
     public ResponseEntity<ApiError> handleSecurityException(final RuntimeException ex) {
+        log.info(Constants.MESSAGE, ex.getMessage());
         return ApiError.buildResponse(HttpStatus.FORBIDDEN, ex.getMessage());
     }
 
     @ExceptionHandler({
-            MethodArgumentNotValidException.class,
-            ConstraintViolationException.class,
-            ValidationException.class
+            AuthenticationCredentialsNotFoundException.class,
+            UserPrincipalNotFoundException.class,
+            AccountNotFoundException.class,
+            UserNotFoundException.class,
+            UsernameNotFoundException.class,
+            RoleNotFoundException.class,
+            EmailVerificationNotFoundException.class
     })
-    public ResponseEntity<ApiError> handleBadRequestException(final MethodArgumentNotValidException ex) {
-
-        List<String> errors = ex.getBindingResult().getFieldErrors()
-                .stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .toList();
-
-        return ApiError.buildResponse(HttpStatus.BAD_REQUEST, errors);
+    public ResponseEntity<ApiError> handleNotFoundException(final RuntimeException ex) {
+        log.info(Constants.MESSAGE, ex.getMessage());
+        return ApiError.buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
 }

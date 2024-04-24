@@ -8,6 +8,7 @@ public final class Constants {
     public static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
     public static final String ACCESS_CONTROL_ALLOW_CREDENTIAL = "Access-Control-Allow-Credential";
     public static final String USER_APPLICATION = "api-security";
+    public static final String MESSAGE = "Error: {}";
 
 
     private Constants() {

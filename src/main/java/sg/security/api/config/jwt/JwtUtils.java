@@ -1,9 +1,12 @@
 package sg.security.api.config.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -15,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Slf4j
 @Component
 public class JwtUtils {
 
@@ -55,7 +59,21 @@ public class JwtUtils {
     }
 
     public Boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
+
+        String username = null;
+
+        try {
+
+           username = extractUsername(token);
+
+        } catch (IllegalArgumentException e) {
+            log.error("Error occurred while retrieving Username from Token", e);
+        } catch (ExpiredJwtException e) {
+            log.error("The token has expired", e);
+        } catch (SignatureException e) {
+            log.error("Authentication Failed. Invalid username or password.");
+        }
+
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 

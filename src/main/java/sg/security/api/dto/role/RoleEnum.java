@@ -12,7 +12,6 @@ public enum RoleEnum {
     BASIC("basic", "User with basic roles"),
     ADMIN("admin", "User with all roles");
 
-
     @Getter
     private final String roleName;
 

@@ -63,7 +63,7 @@ jobs:
   docker:
     name: Build Docker Image
     runs-on: ubuntu-latest
-    needs: [ app, sonar ]
+    needs: [ app ]
     env:
       REPO: ${{ secrets.DOCKER_REPO }}
 

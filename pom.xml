@@ -24,12 +24,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- JaCoCo Properties -->
         <jacoco.version>0.8.8</jacoco.version>
-        <sonar.organization>sergio-gonzalez11</sonar.organization>
-        <sonar.projectKey>sergio-gonzalez11</sonar.projectKey>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-        <sonar.language>java</sonar.language>
     </properties>
 
     <dependencies>
@@ -188,11 +185,6 @@
                     </delimiters>
                     <useDefaultDelimiters>false</useDefaultDelimiters>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.0.2155</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>

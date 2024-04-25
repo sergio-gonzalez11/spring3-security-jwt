@@ -27,7 +27,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
 
       - name: Build with Maven
         run: mvn -B clean install -DskipTests --file pom.xml
@@ -65,18 +64,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ app ]
     steps:
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Extract project version
+        id: extract_version
+        run: |
+          echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
 
       - name: Build & Push to DockerHub
         uses: docker/build-push-action@v5

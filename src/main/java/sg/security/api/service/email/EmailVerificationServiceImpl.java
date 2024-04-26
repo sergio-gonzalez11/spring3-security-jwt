@@ -11,8 +11,6 @@ import sg.security.api.mapper.EmailVerificationMapper;
 import sg.security.api.repository.email.EmailVerificationJpaRepository;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
 
 @Service
 @AllArgsConstructor

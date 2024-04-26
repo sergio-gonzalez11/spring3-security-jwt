@@ -7,7 +7,6 @@ import org.hibernate.type.NumericBooleanConverter;
 import sg.security.api.entity.user.UserJpa;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Entity

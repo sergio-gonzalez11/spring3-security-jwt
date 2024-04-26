@@ -49,7 +49,6 @@ public class EmailEventImpl implements ApplicationListener<EmailEvent> {
 
         } catch (MessagingException | UnsupportedEncodingException e) {
             LOGGER.error("Error: {}" + e.getMessage());
-            throw new RuntimeException(e);
         }
 
         LOGGER.info("Click the link to verify your registration: {}", url);

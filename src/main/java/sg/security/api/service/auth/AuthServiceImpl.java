@@ -30,7 +30,6 @@ import sg.security.api.repository.role.RoleJpaRepository;
 import sg.security.api.repository.user.UserJpaRepository;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Objects;
 
 @Service

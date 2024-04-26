@@ -11,7 +11,6 @@ name: Java CI with Maven
 on:
   push:
     branches:
-      - master
       - develop
   pull_request:
     types: [ opened, synchronize, reopened ]
@@ -41,9 +40,6 @@ jobs:
           echo "MARIADB_PASS=${{ secrets.MARIADB_PASS }}" >> $GITHUB_ENV
           echo "MAIL_USER=${{ secrets.MAIL_USER }}" >> $GITHUB_ENV
           echo "MAIL_PASS=${{ secrets.MAIL_PASS }}" >> $GITHUB_ENV
-
-      - name: Run tests
-        run: mvn test
 
 
   sonar:
@@ -83,6 +79,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY
+
+      - name: Generate JaCoCo coverage report
+        run: mvn jacoco:report
 
 
   docker:

@@ -4,15 +4,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import sg.security.api.dto.auth.LoginRequest;
 import sg.security.api.dto.auth.LoginResponse;
 import sg.security.api.dto.auth.RegisterRequest;
-import sg.security.api.event.EmailEventImpl;
 import sg.security.api.service.auth.AuthService;
 
 @Slf4j

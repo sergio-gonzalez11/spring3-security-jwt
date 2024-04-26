@@ -79,11 +79,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY
-
-      - name: Generate JaCoCo coverage report
-        run: mvn jacoco:report
-
+        run: |
+          JACOCO_REPORT_PATH="$GITHUB_WORKSPACE/target/site/jacoco-aggregate/jacoco.xml"
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.coverage.jacoco.xmlReportPaths=$JACOCO_REPORT_PATH
 
   docker:
     name: Build Docker Image

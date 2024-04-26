@@ -25,6 +25,16 @@
         <sonar.organization>sergio-gonzalez11</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <jacoco.version>0.8.8</jacoco.version>
+        <jacoco.skip>false</jacoco.skip>
+        <amiga.jacoco.excludes>
+            **/*DTO.class,
+            **/*dto.class,
+            **/*Dto.class,
+            **/*VO.class,**/*vo.class,
+            **/*Vo.class,
+            **/sg/security/api/entity/*.class,
+            **/sg/security/api/config/*.class
+        </amiga.jacoco.excludes>
     </properties>
 
     <dependencies>
@@ -195,6 +205,13 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <useSystemClassLoader>false</useSystemClassLoader>
+                    <includes>
+                        <include>**/*Tests.java</include>
+                        <include>**/*Test.java</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/Abstract*.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>

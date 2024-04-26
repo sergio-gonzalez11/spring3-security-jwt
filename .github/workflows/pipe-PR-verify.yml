@@ -31,6 +31,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Check for lombok.config
+        run: |
+            if [ ! -f "lombok.config" ]; then
+              echo "WARNING: lombok.config file not found."
+              exit 1
+            fi
+
       - name: Build with Maven
         run: mvn -B clean verify -DskipTests
 

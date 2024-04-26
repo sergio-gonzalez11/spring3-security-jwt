@@ -80,6 +80,9 @@ jobs:
           SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY
 
+      - name: Generate JaCoCo coverage report
+        run: mvn jacoco:report
+
 
   docker:
     name: Build Docker Image

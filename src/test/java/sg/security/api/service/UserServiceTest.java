@@ -1,5 +1,6 @@
 package sg.security.api.service;
 
+import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -264,7 +265,7 @@ class UserServiceTest {
 
             when(passwordEncoder.matches(eq(changePassword.getCurrentPassword()), anyString())).thenReturn(Boolean.FALSE);
 
-            assertThrows(IllegalStateException.class, () -> UserServiceTest.this.service.changePassword(changePassword));
+            assertThrows(ValidationException.class, () -> UserServiceTest.this.service.changePassword(changePassword));
 
 
         }
@@ -287,7 +288,7 @@ class UserServiceTest {
             when(passwordEncoder.matches(eq(changePassword.getCurrentPassword()), anyString())).thenReturn(Boolean.TRUE);
             when(passwordEncoder.matches(eq(changePassword.getNewPassword()), anyString())).thenReturn(Boolean.TRUE);
 
-            assertThrows(IllegalStateException.class, () -> UserServiceTest.this.service.changePassword(changePassword));
+            assertThrows(ValidationException.class, () -> UserServiceTest.this.service.changePassword(changePassword));
 
 
         }
@@ -310,7 +311,7 @@ class UserServiceTest {
             when(passwordEncoder.matches(eq(changePassword.getCurrentPassword()), anyString())).thenReturn(Boolean.TRUE);
             when(passwordEncoder.matches(eq(changePassword.getNewPassword()), anyString())).thenReturn(Boolean.FALSE);
 
-            assertThrows(IllegalStateException.class, () -> UserServiceTest.this.service.changePassword(changePassword));
+            assertThrows(ValidationException.class, () -> UserServiceTest.this.service.changePassword(changePassword));
 
 
         }

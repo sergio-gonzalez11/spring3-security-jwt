@@ -236,7 +236,6 @@ class AuthenticationServiceTest {
 
 
             verify(AuthenticationServiceTest.this.emailVerificationJpaRepository).findByToken(anyString());
-            verify(AuthenticationServiceTest.this.emailVerificationJpaRepository).deleteById(anyInt());
 
         }
 

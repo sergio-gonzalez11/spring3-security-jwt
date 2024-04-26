@@ -27,6 +27,7 @@
         <jacoco.version>0.8.8</jacoco.version>
         <sonar.exclusions>**/schemas/**,**/config/**</sonar.exclusions>
         <sonar.coverage.exclusions>**/schemas/**,**/config/**</sonar.coverage.exclusions>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <dependencies>
@@ -203,6 +204,11 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <configuration>
+                            <formats>
+                                <format>XML</format>
+                            </formats>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

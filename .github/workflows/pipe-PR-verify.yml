@@ -41,9 +41,6 @@ jobs:
           echo "MAIL_USER=${{ secrets.MAIL_USER }}" >> $GITHUB_ENV
           echo "MAIL_PASS=${{ secrets.MAIL_PASS }}" >> $GITHUB_ENV
 
-      - name: Run tests
-        run: mvn test
-
 
   sonar:
     name: Run Sonar Analysis

@@ -22,16 +22,11 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sonar.organization>sergio-gonzalez11</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization>sergio-gonzalez11</sonar.organization>
         <jacoco.version>0.8.8</jacoco.version>
         <jacoco.skip>false</jacoco.skip>
-        <amiga.jacoco.excludes>
-            **/*DTO.class,
-            **/*dto.class,
-            **/*Dto.class,
-            **/sg/security/api/config/*.class
-        </amiga.jacoco.excludes>
+        <jacoco.excludes>**/sg/security/api/config/*.class</jacoco.excludes>
     </properties>
 
     <dependencies>

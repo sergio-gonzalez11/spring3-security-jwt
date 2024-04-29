@@ -26,7 +26,10 @@
         <sonar.organization>sergio-gonzalez11</sonar.organization>
         <jacoco.version>0.8.8</jacoco.version>
         <jacoco.skip>false</jacoco.skip>
-        <jacoco.excludes>**/sg/security/api/config/*.class</jacoco.excludes>
+        <jacoco.excludes>
+            **/sg/security/api/config/*.class
+            **/sg/security/api/entity/*.class
+        </jacoco.excludes>
     </properties>
 
     <dependencies>

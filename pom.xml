@@ -208,9 +208,9 @@
                 <version>${jacoco.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>sg/security/api/config/**</exclude>
-                        <exclude>sg/security/api/shared/**</exclude>
-                        <exclude>sg/security/api/ApiApplication.class</exclude>
+                        <exclude>**/sg/security/api/config/**</exclude>
+                        <exclude>**/sg/security/api/shared/**</exclude>
+                        <exclude>**/sg/security/api/ApiApplication.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>

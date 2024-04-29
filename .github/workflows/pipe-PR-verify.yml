@@ -30,7 +30,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Check for lombok.config
+      - name: Check lombok properties
         run: |
             if [ ! -f "lombok.config" ]; then
               echo "WARNING: lombok.config file not found."

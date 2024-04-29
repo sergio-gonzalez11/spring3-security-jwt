@@ -20,11 +20,5 @@ public interface RoleMapper {
 
     Role toDTO(CreateRole entity);
 
-/*    RoleDTO toRoleDTO(Role entity);
-
-    List<RoleDTO> toRoleDTOs(List<Role> entities);
-
-    RoleDetailDTO toRoleDetailDTO(Role entity);*/
-
 
 }

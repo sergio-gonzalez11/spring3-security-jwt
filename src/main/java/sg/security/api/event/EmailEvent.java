@@ -6,11 +6,15 @@ import lombok.EqualsAndHashCode;
 import org.springframework.context.ApplicationEvent;
 import sg.security.api.dto.user.User;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = true)
-public class EmailEvent extends ApplicationEvent {
-
+public class EmailEvent extends ApplicationEvent implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 8421210018193144077L;
     private User user;
     private String applicationUrl;
 

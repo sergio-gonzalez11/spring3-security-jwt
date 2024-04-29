@@ -4,6 +4,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -17,11 +18,10 @@ import sg.security.api.service.email.EmailVerificationService;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
+@Slf4j
 @Component
 @AllArgsConstructor
 public class EmailEventImpl implements ApplicationListener<EmailEvent> {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmailEventImpl.class);
 
     private static final String URL_EMAIL_VERIFICATION = "/auths/email/verification?token=";
 
@@ -48,10 +48,10 @@ public class EmailEventImpl implements ApplicationListener<EmailEvent> {
             sendEmailVerification(user, url);
 
         } catch (MessagingException | UnsupportedEncodingException e) {
-            LOGGER.error("Error: {}" + e.getMessage());
+            log.error("Error: {}" + e.getMessage());
         }
 
-        LOGGER.info("Click the link to verify your registration: {}", url);
+        log.info("Click the link to verify your registration: {}", url);
     }
 
     @Override

@@ -30,9 +30,6 @@
             **/*DTO.class,
             **/*dto.class,
             **/*Dto.class,
-            **/*VO.class,**/*vo.class,
-            **/*Vo.class,
-            **/sg/security/api/entity/*.class,
             **/sg/security/api/config/*.class
         </amiga.jacoco.excludes>
     </properties>

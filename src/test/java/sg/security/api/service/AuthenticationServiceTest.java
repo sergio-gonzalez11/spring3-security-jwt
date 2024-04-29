@@ -229,7 +229,6 @@ class AuthenticationServiceTest {
             emailVerificationJpa.setExpirationTime(LocalDateTime.now());
 
             when(AuthenticationServiceTest.this.emailVerificationJpaRepository.findByToken(anyString())).thenReturn(Optional.of(emailVerificationJpa));
-            doNothing().when(AuthenticationServiceTest.this.emailVerificationJpaRepository).deleteById(anyInt());
 
 
             AuthenticationServiceTest.this.authService.sendEmailConfirmation(emailVerificationJpa.getToken());

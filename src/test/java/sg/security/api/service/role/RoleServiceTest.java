@@ -26,7 +26,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class RoleServiceTest {
 
-
     @Mock
     RoleJpaRepository roleJpaRepository;
 
@@ -183,7 +182,7 @@ class RoleServiceTest {
         @Test
         void updateException() {
 
-            when(RoleServiceTest.this.roleJpaRepository.findById(anyInt())).thenReturn(Optional.ofNullable(roleJpaData.get(1)));
+            when(RoleServiceTest.this.roleJpaRepository.findById(anyInt())).thenReturn(Optional.empty());
 
             assertThrows(RoleNotFoundException.class, () -> RoleServiceTest.this.roleService.update(roleData.get(1)));
 

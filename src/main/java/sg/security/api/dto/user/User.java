@@ -4,11 +4,16 @@ import lombok.Builder;
 import lombok.Data;
 import sg.security.api.dto.role.Role;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
 @Builder
-public class User {
+public class User implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -8290026120346257602L;
 
     private Integer id;
 

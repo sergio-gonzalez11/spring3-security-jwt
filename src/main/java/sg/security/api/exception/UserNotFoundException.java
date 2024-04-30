@@ -4,7 +4,6 @@ import sg.security.api.constant.Errors;
 
 public class UserNotFoundException extends RuntimeException {
 
-
     public UserNotFoundException() {
         super();
     }

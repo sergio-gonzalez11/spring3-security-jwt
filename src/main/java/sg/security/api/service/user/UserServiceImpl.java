@@ -29,29 +29,38 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAllUsers() {
-        return repository.findAllUsers().stream().map(mapper::toDTO).toList();
+        return repository.findAllUsers().stream()
+                .map(mapper::toDTO)
+                .toList();
     }
 
     @Override
     public User findById(Integer userId) {
-        return repository.findById(userId).map(mapper::toDTO).orElseThrow(() -> new UserNotFoundException(userId));
+        return repository.findById(userId)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new UserNotFoundException(userId));
     }
 
     @Override
     public User findByEmail(String email) {
-        return repository.findByEmail(email).map(mapper::toDTO).orElseThrow(() -> new UserNotFoundException(email));
+        return repository.findByEmail(email)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new UserNotFoundException(email));
     }
 
     @Override
     public User findByUsername(String username) {
-        return repository.findByUsername(username).map(mapper::toDTO).orElseThrow(() -> new UserNotFoundException(username));
+        return repository.findByUsername(username)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new UserNotFoundException(username));
     }
 
     @Override
     @Transactional
     public void update(Integer userId, User user) {
 
-        UserJpa request = repository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        UserJpa request = repository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
         request.setFirstname(user.getFirstname());
         request.setLastname(user.getLastname());
@@ -93,8 +102,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void delete(String username) {
 
-        var user = repository
-                .findByUsername(username).map(mapper::toDTO).orElseThrow(() -> new UserNotFoundException(username));
+        var user = repository.findByUsername(username)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new UserNotFoundException(username));
 
         repository.deleteById(user.getId());
     }

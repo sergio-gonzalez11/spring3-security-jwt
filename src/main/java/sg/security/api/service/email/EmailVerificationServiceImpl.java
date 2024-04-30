@@ -24,7 +24,9 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
 
     @Override
     public EmailVerification getEmailVerificationByToken(String token) {
-        return repository.findByToken(token).map(mapper::toDTO).orElseThrow(() -> new EmailVerificationNotFoundException(token));
+        return repository.findByToken(token)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new EmailVerificationNotFoundException(token));
     }
 
     @Override

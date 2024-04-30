@@ -21,23 +21,29 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> findAll() {
-        return roleJpaRepository.findAll().stream().map(mapper::toDTO).toList();
+        return roleJpaRepository.findAll().stream()
+                .map(mapper::toDTO)
+                .toList();
     }
 
     @Override
     public List<Role> findByIds(List<Integer> ids) {
-        return roleJpaRepository.findAllByIdIn(ids).stream().map(mapper::toDTO).toList();
+        return roleJpaRepository.findAllByIdIn(ids).stream()
+                .map(mapper::toDTO)
+                .toList();
     }
 
     @Override
     public Role findByRoleId(Integer idRole) {
-        return roleJpaRepository.findById(idRole).map(mapper::toDTO)
+        return roleJpaRepository.findById(idRole)
+                .map(mapper::toDTO)
                 .orElseThrow(() -> new RoleNotFoundException(idRole));
     }
 
     @Override
     public Role findByRoleName(String roleName) {
-        return roleJpaRepository.findByName(roleName).map(mapper::toDTO)
+        return roleJpaRepository.findByName(roleName)
+                .map(mapper::toDTO)
                 .orElseThrow(() -> new RoleNotFoundException(roleName));
     }
 

@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAnyRole(T(sg.security.api.dto.role.RoleEnum).ADMIN.getRoleName().toUpperCase())")
+@PreAuthorize("hasAnyRole(T(sg.security.api.dto.role.RoleEnum).ADMIN.getRoleName())")
 public @interface AdminAccess {
 
 }

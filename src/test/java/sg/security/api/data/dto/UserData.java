@@ -35,7 +35,7 @@ public class UserData {
                 .lastname("LASTNAME_" + nextId)
                 .username("USERNAME_" + nextId)
                 .password("PASSWORD_" + nextId)
-                .email("EMAIL_" + nextId)
+                .email("email_" + nextId + "@gmail.com")
                 .birthdate(LocalDate.now())
                 .build();
     }

@@ -52,8 +52,8 @@ public class AuthServiceImpl implements AuthService {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-        var userJpa = userJpaRepository
-                .findByUsername(loginRequest.getUsername()).orElseThrow(() -> new UserNotFoundException(loginRequest.getUsername()));
+        var userJpa = userJpaRepository.findByUsername(loginRequest.getUsername())
+                .orElseThrow(() -> new UserNotFoundException(loginRequest.getUsername()));
 
         String jwtToken = jwtUtils.generateToken(userJpa);
 
@@ -67,11 +67,11 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public void register(RegisterRequest registerRequest, HttpServletRequest request) {
 
-        var userJpa = userJpaRepository
-                .findByUsernameAndEmail(registerRequest.getUsername(), registerRequest.getEmail()).orElse(null);
+        var userJpa = userJpaRepository.findByUsernameAndEmail(registerRequest.getUsername(), registerRequest.getEmail())
+                .orElse(null);
 
-        var roleJpa = roleJpaRepository
-                .findByName(RoleEnum.BASIC.getRoleName()).orElseThrow(RoleNotFoundException::new);
+        var roleJpa = roleJpaRepository.findByName(RoleEnum.BASIC.getRoleName())
+                .orElseThrow(RoleNotFoundException::new);
 
         if (Objects.nonNull(userJpa)) {
             throw new UserAlreadyExistsException(userJpa.getUsername());
@@ -93,8 +93,8 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public void sendEmailConfirmation(String token) throws Exception {
 
-        var emailVerificationJpa = emailVerificationJpaRepository
-                .findByToken(token).orElseThrow(() -> new EmailVerificationNotFoundException(token));
+        var emailVerificationJpa = emailVerificationJpaRepository.findByToken(token)
+                .orElseThrow(() -> new EmailVerificationNotFoundException(token));
 
         if (Boolean.TRUE.equals(emailVerificationJpa.getUser().getIsEnabled())) {
             throw new Exception(Errors.ACCOUNT_VERIFIED);
@@ -112,7 +112,6 @@ public class AuthServiceImpl implements AuthService {
         } else {
 
             var userJpa = emailVerificationJpa.getUser();
-
             userJpaRepository.updateEnabled(userJpa.getId());
         }
     }

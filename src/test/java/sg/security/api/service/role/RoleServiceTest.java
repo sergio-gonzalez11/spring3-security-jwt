@@ -1,4 +1,4 @@
-package sg.security.api.service;
+package sg.security.api.service.role;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -15,7 +15,6 @@ import sg.security.api.entity.role.RoleJpa;
 import sg.security.api.exception.RoleNotFoundException;
 import sg.security.api.mapper.RoleMapper;
 import sg.security.api.repository.role.RoleJpaRepository;
-import sg.security.api.service.role.RoleServiceImpl;
 
 import java.util.List;
 import java.util.Optional;

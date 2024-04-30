@@ -5,8 +5,6 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -16,14 +14,16 @@ import sg.security.api.dto.user.User;
 import sg.security.api.service.email.EmailVerificationService;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+
+import static sg.security.api.constant.Constants.INFO_EMAIL_CONTACT;
+import static sg.security.api.constant.Constants.URL_EMAIL_VERIFICATION;
 
 @Slf4j
 @Component
 @AllArgsConstructor
 public class EmailEventImpl implements ApplicationListener<EmailEvent> {
-
-    private static final String URL_EMAIL_VERIFICATION = "/auths/email/verification?token=";
 
     private final @NonNull JavaMailSender mailSender;
 
@@ -40,15 +40,15 @@ public class EmailEventImpl implements ApplicationListener<EmailEvent> {
 
         emailVerificationService.saveEmailVerification(user, verificationToken);
 
-        String url = event.getApplicationUrl() + URL_EMAIL_VERIFICATION + verificationToken;
+        String url = getEventFormatUrl(event.getApplicationUrl(), verificationToken);
 
 
         try {
 
             sendEmailVerification(user, url);
 
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            log.error("Error: {}" + e.getMessage());
+        } catch (RuntimeException | MessagingException | UnsupportedEncodingException e) {
+            throw new RuntimeException("Error sending email: {}", e);
         }
 
         log.info("Click the link to verify your registration: {}", url);
@@ -70,10 +70,11 @@ public class EmailEventImpl implements ApplicationListener<EmailEvent> {
                 "<a href=\"" + url + "\">Verify your email to activate your account</a>" +
                 "<p> Thank you <br> Users Registration Portal Service";
 
+
         MimeMessage message = mailSender.createMimeMessage();
 
-        var messageHelper = new MimeMessageHelper(message);
-        messageHelper.setFrom("info@gmail.com", senderName);
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
+        messageHelper.setFrom(INFO_EMAIL_CONTACT, senderName);
         messageHelper.setTo(user.getEmail());
         messageHelper.setSubject(subject);
         messageHelper.setText(mailContent, true);
@@ -81,6 +82,9 @@ public class EmailEventImpl implements ApplicationListener<EmailEvent> {
         mailSender.send(message);
     }
 
+    private String getEventFormatUrl(String applicationUrl, String token){
+        return applicationUrl + URL_EMAIL_VERIFICATION + token;
+    }
 }
 
 

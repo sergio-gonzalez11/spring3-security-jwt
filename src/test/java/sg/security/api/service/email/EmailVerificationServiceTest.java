@@ -1,4 +1,4 @@
-package sg.security.api.service;
+package sg.security.api.service.email;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -17,7 +17,6 @@ import sg.security.api.entity.user.UserJpa;
 import sg.security.api.exception.EmailVerificationNotFoundException;
 import sg.security.api.mapper.EmailVerificationMapper;
 import sg.security.api.repository.email.EmailVerificationJpaRepository;
-import sg.security.api.service.email.EmailVerificationServiceImpl;
 
 import java.util.Optional;
 

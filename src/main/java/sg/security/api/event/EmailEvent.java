@@ -15,6 +15,7 @@ import java.io.Serializable;
 public class EmailEvent extends ApplicationEvent implements Serializable {
     @Serial
     private static final long serialVersionUID = 8421210018193144077L;
+
     private User user;
     private String applicationUrl;
 

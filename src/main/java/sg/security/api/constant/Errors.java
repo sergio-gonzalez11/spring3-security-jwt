@@ -2,6 +2,7 @@ package sg.security.api.constant;
 
 public final class Errors {
 
+    public static final String USER_NOT_AUTHORIZED = "User not authorized ";
     public static final String USER_NOT_FOUND = "User not found: ";
 
     public static final String USERNAME_NOT_FOUND = "Username not found: ";

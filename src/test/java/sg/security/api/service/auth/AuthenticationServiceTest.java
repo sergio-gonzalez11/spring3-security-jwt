@@ -1,4 +1,4 @@
-package sg.security.api.service;
+package sg.security.api.service.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +34,6 @@ import sg.security.api.mapper.UserMapper;
 import sg.security.api.repository.email.EmailVerificationJpaRepository;
 import sg.security.api.repository.role.RoleJpaRepository;
 import sg.security.api.repository.user.UserJpaRepository;
-import sg.security.api.service.auth.AuthServiceImpl;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -139,7 +138,7 @@ class AuthenticationServiceTest {
     class Register {
 
         @Test
-        void registerIsOk() throws Exception {
+        void registerIsOk() {
 
             RegisterRequest registerRequest = registerRequestData.get(1);
             User user = userData.get(1);

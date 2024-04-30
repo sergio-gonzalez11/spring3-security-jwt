@@ -195,7 +195,7 @@ class UserServiceTest {
 
             when(UserServiceTest.this.repository.findById(anyInt())).thenReturn(Optional.empty());
 
-            assertThrows(UserNotFoundException.class, () -> UserServiceTest.this.service.update(1, null));
+            assertThrows(UserNotFoundException.class, () -> UserServiceTest.this.service.update(1, userData.get(1)));
 
             verify(UserServiceTest.this.repository).findById(anyInt());
 

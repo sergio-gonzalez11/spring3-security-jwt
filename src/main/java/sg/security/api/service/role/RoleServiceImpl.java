@@ -57,14 +57,14 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void update(Role role) throws Exception {
 
-        roleJpaRepository.findById(role.getId()).map(update -> {
+        var request = roleJpaRepository.findById(role.getId())
+                .orElseThrow(() -> new RoleNotFoundException(role.getName()));
 
-            update.setName(role.getName());
-            update.setDescription(role.getDescription());
+        request.setName(role.getName());
+        request.setDescription(role.getDescription());
 
-            return roleJpaRepository.save(update);
+        roleJpaRepository.save(request);
 
-        }).orElseThrow(() -> new RoleNotFoundException(role.getName()));
     }
 
     @Override

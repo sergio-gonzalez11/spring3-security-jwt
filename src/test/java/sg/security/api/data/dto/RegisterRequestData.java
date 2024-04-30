@@ -30,10 +30,10 @@ public class RegisterRequestData {
     private RegisterRequest generate() {
         final Integer nextId = this.keyGenerator.getAndIncrement();
         return RegisterRequest.builder()
-                .firstname("FIRSTNAME_" + nextId)
-                .lastname("LASTNAME_" + nextId)
-                .username("USERNAME_" + nextId)
-                .password("PASSWORD_" + nextId)
+                .firstname("firstname_" + nextId)
+                .lastname("lastname_" + nextId)
+                .username("username_" + nextId)
+                .password("password_" + nextId)
                 .email("email_" + nextId + "@gmail.com")
                 .birthdate(LocalDate.now())
                 .build();

@@ -37,11 +37,11 @@ public class UserJpaData {
         final Integer nextId = this.keyGenerator.getAndIncrement();
         final UserJpa element = new UserJpa();
         element.setId(nextId);
-        element.setFirstname("FIRSTNAME_" + nextId);
-        element.setLastname("LASTNAME_" + nextId);
-        element.setUsername("USERNAME_" + nextId);
-        element.setPassword(this.passwordEncoder.encode("PASSWORD_" + nextId));
-        element.setEmail("EMAIL_" + nextId);
+        element.setFirstname("firstname_" + nextId);
+        element.setLastname("lastname_" + nextId);
+        element.setUsername("username_" + nextId);
+        element.setPassword(this.passwordEncoder.encode("password_" + nextId));
+        element.setEmail("email_" + nextId + "@gmail.com");
         element.setBirthdate(LocalDate.now());
         return element;
     }

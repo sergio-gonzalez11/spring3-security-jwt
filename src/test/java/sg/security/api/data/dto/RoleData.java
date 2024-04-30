@@ -30,8 +30,8 @@ public class RoleData {
         final Integer nextId = this.keyGenerator.getAndIncrement();
         return Role.builder()
                 .id(nextId)
-                .name("NAME_" + nextId)
-                .description("DESCRIPTION_" + nextId)
+                .name("name_" + nextId)
+                .description("description_" + nextId)
                 .build();
     }
 

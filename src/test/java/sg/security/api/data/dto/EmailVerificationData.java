@@ -31,7 +31,7 @@ public class EmailVerificationData {
         final Integer nextId = this.keyGenerator.getAndIncrement();
         return EmailVerification.builder()
                 .id(nextId)
-                .token("TOKEN_" + nextId)
+                .token("token_" + nextId)
                 .expirationTime(LocalDateTime.now())
                 .build();
     }

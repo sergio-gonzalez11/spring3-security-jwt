@@ -29,9 +29,9 @@ public class ChangePasswordData {
     private ChangePassword generate() {
         final Integer nextId = this.keyGenerator.getAndIncrement();
         return ChangePassword.builder()
-                .currentPassword("CURRENT_PASSWORD_" + nextId)
-                .newPassword("NEW_PASSWORD_" + nextId)
-                .confirmationPassword("CONFIRMATION_PASSWORD_" + nextId)
+                .currentPassword("current_password_" + nextId)
+                .newPassword("new_password_" + nextId)
+                .confirmationPassword("confirmation_password_" + nextId)
                 .build();
     }
 

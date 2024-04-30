@@ -31,7 +31,7 @@ public class EmailVerificationJpaData {
         final Integer nextId = this.keyGenerator.getAndIncrement();
         final EmailVerificationJpa element = new EmailVerificationJpa();
         element.setId(nextId);
-        element.setToken("TOKEN_" + nextId);
+        element.setToken("token_" + nextId);
         element.setExpirationTime(LocalDateTime.now());
         return element;
     }

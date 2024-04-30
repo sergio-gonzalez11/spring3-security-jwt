@@ -59,15 +59,17 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(Integer userId, User user) {
 
-        UserJpa request = repository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId));
+        repository.findById(userId).map(request -> {
 
-        request.setFirstname(user.getFirstname());
-        request.setLastname(user.getLastname());
-        request.setEmail(user.getEmail());
-        request.setBirthdate(user.getBirthdate());
+            request.setFirstname(user.getFirstname());
+            request.setLastname(user.getLastname());
+            request.setEmail(user.getEmail());
+            request.setBirthdate(user.getBirthdate());
 
-        repository.save(request);
+            return repository.save(request);
+
+        }).orElseThrow(() -> new UserNotFoundException(userId));
+
     }
 
     @Override

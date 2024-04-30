@@ -2,6 +2,7 @@ package sg.security.api.validator.email;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import sg.security.api.dto.email.TypeEmailEnum;
 
 import java.util.regex.Pattern;
 

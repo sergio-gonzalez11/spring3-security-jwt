@@ -13,7 +13,7 @@ public final class Errors {
 
     public static final String EMAIL_NOT_FOUND = "Email not found: ";
 
-    public static final String EMAIL_VERIFICATION_EXPIRED = "Verify expired";
+    public static final String EMAIL_VERIFICATION_EXPIRED = "Verify expired: ";
 
     public static final String ACCOUNT_VERIFIED = "This account has already been verified.";
 

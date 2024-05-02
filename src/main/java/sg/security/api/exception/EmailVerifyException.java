@@ -4,7 +4,7 @@ import sg.security.api.constant.Errors;
 
 public class EmailVerifyException extends RuntimeException {
 
-    public EmailVerifyException() {
-        super(Errors.ACCOUNT_VERIFIED);
+    public EmailVerifyException(String message) {
+        super(message);
     }
 }

@@ -96,7 +96,7 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new EmailVerificationNotFoundException(token));
 
         if (Boolean.TRUE.equals(emailVerificationJpa.getUser().getIsEnabled())) {
-            throw new EmailVerifyException();
+            throw new EmailVerifyException(Errors.ACCOUNT_VERIFIED);
         }
 
         this.validateVerificationEmail(emailVerificationJpa);

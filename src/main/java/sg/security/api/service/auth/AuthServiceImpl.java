@@ -90,13 +90,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void sendEmailConfirmation(String token) throws Exception {
+    public void sendEmailConfirmation(String token) {
 
         var emailVerificationJpa = emailVerificationJpaRepository.findByToken(token)
                 .orElseThrow(() -> new EmailVerificationNotFoundException(token));
 
         if (Boolean.TRUE.equals(emailVerificationJpa.getUser().getIsEnabled())) {
-            throw new Exception(Errors.ACCOUNT_VERIFIED);
+            throw new EmailVerifyException();
         }
 
         this.validateVerificationEmail(emailVerificationJpa);
@@ -119,7 +119,6 @@ public class AuthServiceImpl implements AuthService {
 
             var userJpa = emailVerificationJpa.getUser();
             userJpaRepository.updateEnabled(userJpa.getId());
-            emailVerificationJpaRepository.deleteById(emailVerificationJpa.getId());
 
         }
 

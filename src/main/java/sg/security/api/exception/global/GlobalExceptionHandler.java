@@ -34,7 +34,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             MethodArgumentNotValidException.class,
             BadRequestException.class,
-            EmailVerificationExpiredException.class,
             ConstraintViolationException.class,
             IllegalArgumentException.class,
             ValidationException.class
@@ -95,6 +94,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleInternalServerException(final RuntimeException ex) {
         log.info(Constants.MESSAGE, ex.getMessage());
         return ApiError.buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
+
+    @ExceptionHandler({
+            EmailVerificationExpiredException.class,
+            EmailVerifyException.class
+    })
+    public ResponseEntity<ApiError> handleException(final RuntimeException ex) {
+        log.info(Constants.MESSAGE, ex.getMessage());
+        return ApiError.buildResponse(HttpStatus.ALREADY_REPORTED, ex.getMessage());
     }
 
 }

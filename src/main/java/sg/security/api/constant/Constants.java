@@ -11,6 +11,7 @@ public final class Constants {
     public static final String MESSAGE = "Error: {}";
     public static final String INFO_EMAIL_CONTACT = "info@gmail.com";
     public static final String URL_EMAIL_VERIFICATION = "/auths/email/verification?token=";
+    public static final int EXPIRATION_TIME = 60 * 20;
 
 
 

@@ -105,23 +105,6 @@ class EmailVerificationServiceTest {
             when(EmailVerificationServiceTest.this.mapper.toJPA(any(EmailVerification.class))).thenReturn(emailVerificationJpaData.get(1));
             when(EmailVerificationServiceTest.this.repository.save(any(EmailVerificationJpa.class))).thenReturn(emailVerificationJpa);
 
-            service.saveEmailVerification(emailVerificationData.get(1).getUser(), emailVerificationData.get(1).getToken());
-
-            verify(EmailVerificationServiceTest.this.mapper).toJPA(any(EmailVerification.class));
-            verify(EmailVerificationServiceTest.this.repository).save(any(EmailVerificationJpa.class));
-        }
-
-        @Test
-        void saveObject() {
-
-            UserJpa userJpa = userJpaData.get(1);
-
-            EmailVerificationJpa emailVerificationJpa = emailVerificationJpaData.get(1);
-            emailVerificationJpa.setUser(userJpa);
-
-            when(EmailVerificationServiceTest.this.mapper.toJPA(any(EmailVerification.class))).thenReturn(emailVerificationJpaData.get(1));
-            when(EmailVerificationServiceTest.this.repository.save(any(EmailVerificationJpa.class))).thenReturn(emailVerificationJpa);
-
             service.saveEmailVerification(emailVerificationData.get(1));
 
             verify(EmailVerificationServiceTest.this.mapper).toJPA(any(EmailVerification.class));

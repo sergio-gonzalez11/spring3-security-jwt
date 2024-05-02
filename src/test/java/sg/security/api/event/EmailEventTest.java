@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.javamail.JavaMailSender;
 import sg.security.api.data.dto.UserData;
+import sg.security.api.dto.auth.EmailVerification;
 import sg.security.api.dto.user.User;
 import sg.security.api.service.email.EmailVerificationService;
 
@@ -62,12 +63,12 @@ class EmailEventTest {
         @Test
         void emailEventIsOk() {
 
-            doNothing().when(EmailEventTest.this.emailVerificationService).saveEmailVerification(any(User.class), anyString());
+            doNothing().when(EmailEventTest.this.emailVerificationService).saveEmailVerification(any(EmailVerification.class));
             when(javaMailSender.createMimeMessage()).thenReturn(new MimeMessage((Session) null));
 
             emailEvent.onApplicationEvent(event);
 
-            verify(emailVerificationService).saveEmailVerification(any(User.class), any(String.class));
+            verify(emailVerificationService).saveEmailVerification(any(EmailVerification.class));
             verify(javaMailSender).createMimeMessage();
 
         }
@@ -75,7 +76,7 @@ class EmailEventTest {
         @Test
         void emailEventIsException() {
 
-            doNothing().when(EmailEventTest.this.emailVerificationService).saveEmailVerification(any(User.class), anyString());
+            doNothing().when(EmailEventTest.this.emailVerificationService).saveEmailVerification(any(EmailVerification.class));
             when(javaMailSender.createMimeMessage()).thenReturn(null);
 
             assertThrows(RuntimeException.class, () -> EmailEventTest.this.emailEvent.onApplicationEvent(event));

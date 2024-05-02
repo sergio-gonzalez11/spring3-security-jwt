@@ -15,6 +15,8 @@ public class EmailVerificationData {
 
     private final Map<Integer, EmailVerification> dataMap;
 
+    private static final int EXPIRATION_TIME = 60 * 20;
+
     public EmailVerificationData() {
 
         this.keyGenerator = new AtomicInteger(1);
@@ -32,7 +34,8 @@ public class EmailVerificationData {
         return EmailVerification.builder()
                 .id(nextId)
                 .token("token_" + nextId)
-                .expirationTime(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
+                .expirationTime(LocalDateTime.MAX.plusMinutes(EXPIRATION_TIME))
                 .build();
     }
 

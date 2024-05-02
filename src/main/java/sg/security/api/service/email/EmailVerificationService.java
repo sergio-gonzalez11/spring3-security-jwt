@@ -7,8 +7,6 @@ public interface EmailVerificationService {
 
     EmailVerification getEmailVerificationByToken(String token);
 
-    void saveEmailVerification(User user, String token);
-
     void saveEmailVerification(EmailVerification emailVerification);
 
     void delete(Integer id);

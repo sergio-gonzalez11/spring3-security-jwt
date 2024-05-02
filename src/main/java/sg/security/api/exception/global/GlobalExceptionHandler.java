@@ -34,6 +34,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             MethodArgumentNotValidException.class,
             BadRequestException.class,
+            EmailVerificationExpiredException.class,
             ConstraintViolationException.class,
             IllegalArgumentException.class,
             ValidationException.class

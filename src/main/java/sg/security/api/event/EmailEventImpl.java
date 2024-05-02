@@ -10,15 +10,16 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import sg.security.api.dto.auth.EmailVerification;
 import sg.security.api.dto.user.User;
 import sg.security.api.service.email.EmailVerificationService;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static sg.security.api.constant.Constants.INFO_EMAIL_CONTACT;
-import static sg.security.api.constant.Constants.URL_EMAIL_VERIFICATION;
+import static sg.security.api.constant.Constants.*;
 
 @Slf4j
 @Component
@@ -38,10 +39,16 @@ public class EmailEventImpl implements ApplicationListener<EmailEvent> {
 
         String verificationToken = UUID.randomUUID().toString();
 
-        emailVerificationService.saveEmailVerification(user, verificationToken);
+        EmailVerification emailVerification = EmailVerification.builder()
+                .token(verificationToken)
+                .createdAt(LocalDateTime.now())
+                .expirationTime(LocalDateTime.now().plusMinutes(EXPIRATION_TIME))
+                .user(user)
+                .build();
+
+        emailVerificationService.saveEmailVerification(emailVerification);
 
         String url = getEventFormatUrl(event.getApplicationUrl(), verificationToken);
-
 
         try {
 
@@ -82,7 +89,7 @@ public class EmailEventImpl implements ApplicationListener<EmailEvent> {
         mailSender.send(message);
     }
 
-    private String getEventFormatUrl(String applicationUrl, String token){
+    private String getEventFormatUrl(String applicationUrl, String token) {
         return applicationUrl + URL_EMAIL_VERIFICATION + token;
     }
 }

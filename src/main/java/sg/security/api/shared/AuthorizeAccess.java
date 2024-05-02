@@ -11,6 +11,4 @@ import java.lang.annotation.RetentionPolicy;
 @PreAuthorize("hasAnyRole("
         + "(T(sg.security.api.dto.role.RoleEnum).BASIC.getRoleName()),"
         + "(T(sg.security.api.dto.role.RoleEnum).ADMIN.getRoleName()))")
-public @interface AuthorizeAccess {
-
-}
+public @interface AuthorizeAccess { }

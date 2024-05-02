@@ -22,6 +22,9 @@ public class EmailVerificationJpa {
     @Column(name = "TOKEN", nullable = false)
     private String token;
 
+    @Column(name = "CREATED_AT", nullable = false)
+    private LocalDateTime createdAt;
+
     @Column(name = "EXPIRATION_TIME", nullable = false)
     private LocalDateTime expirationTime;
 

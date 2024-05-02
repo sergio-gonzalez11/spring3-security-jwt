@@ -64,7 +64,7 @@ public class JwtUtils {
 
         try {
 
-           username = extractUsername(token);
+            username = extractUsername(token);
 
         } catch (IllegalArgumentException e) {
             log.error("Error occurred while retrieving Username from Token", e);

@@ -19,6 +19,8 @@ public class EmailVerification implements Serializable {
 
     private String token;
 
+    private LocalDateTime createdAt;
+
     private LocalDateTime expirationTime;
 
     @Builder.Default

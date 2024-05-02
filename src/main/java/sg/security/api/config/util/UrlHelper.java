@@ -24,7 +24,7 @@ public class UrlHelper {
             uri = new URI(scheme, null, serverName, serverPort, contextPath, null, null);
 
         } catch (URISyntaxException e) {
-            log.error(e.getMessage());
+            log.error("Error [getApplicationUrl]: {}", e.getMessage());
             return null;
         }
 

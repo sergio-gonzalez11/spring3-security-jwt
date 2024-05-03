@@ -35,7 +35,7 @@ public class EmailVerificationData {
                 .id(nextId)
                 .token("token_" + nextId)
                 .createdAt(LocalDateTime.now())
-                .expirationTime(LocalDateTime.MAX.plusMinutes(EXPIRATION_TIME))
+                .expirationTime(LocalDateTime.now().plusMinutes(EXPIRATION_TIME))
                 .build();
     }
 

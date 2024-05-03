@@ -238,7 +238,7 @@ class AuthenticationServiceTest {
         }
 
         @Test
-        void sendEmailConfirmationExpiratedIsOldVerificated() {
+        void sendEmailConfirmationVerify() {
 
             UserJpa userJpa = userJpaData.get(1);
             userJpa.setIsEnabled(Boolean.TRUE);

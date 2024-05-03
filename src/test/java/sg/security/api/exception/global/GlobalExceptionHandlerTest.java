@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import sg.security.api.exception.EmailVerificationExpiredException;
 import sg.security.api.exception.UserNotAuthorizedException;
 import sg.security.api.exception.UserNotFoundException;
 
@@ -93,6 +94,20 @@ class GlobalExceptionHandlerTest {
         final ApiError result = responseEntity.getBody();
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+        assertNotNull(result);
+    }
+
+    @Test
+    void handleException() {
+
+        final EmailVerificationExpiredException exception = assertThrows(EmailVerificationExpiredException.class, () -> {
+            throw new EmailVerificationExpiredException("ERROR");
+        });
+
+        final ResponseEntity<ApiError> responseEntity = this.globalExceptionHandler.handleException(exception);
+        final ApiError result = responseEntity.getBody();
+
+        assertEquals(HttpStatus.ALREADY_REPORTED, responseEntity.getStatusCode());
         assertNotNull(result);
     }
 

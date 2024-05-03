@@ -45,6 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
+import static sg.security.api.constant.Constants.EXPIRATION_TIME;
 
 @ExtendWith(MockitoExtension.class)
 class AuthenticationServiceTest {
@@ -223,6 +224,7 @@ class AuthenticationServiceTest {
             userJpa.setIsEnabled(Boolean.FALSE);
 
             EmailVerificationJpa emailVerificationJpa = emailVerificationJpaData.get(1);
+            emailVerificationJpa.setExpirationTime(LocalDateTime.now().minusMinutes(EXPIRATION_TIME));
             emailVerificationJpa.setUser(userJpa);
 
             when(AuthenticationServiceTest.this.emailVerificationJpaRepository.findByToken(anyString())).thenReturn(Optional.of(emailVerificationJpa));

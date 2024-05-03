@@ -78,13 +78,14 @@ public class AuthServiceImpl implements AuthService {
 
         UserJpa create = saveUserJpa(registerRequest, roleJpa);
         publisher.publishEvent(new EmailEvent(userMapper.toDTO(create), urlHelper.getApplicationUrl(request)));
-
     }
 
     private UserJpa saveUserJpa(RegisterRequest registerRequest, RoleJpa roleJpa) {
+
         UserJpa create = userMapper.toRegisterJpa(registerRequest);
         create.setPassword(passwordEncoder.encode(create.getPassword()));
         create.setRole(roleJpa);
+
         return userJpaRepository.save(create);
     }
 
@@ -100,7 +101,6 @@ public class AuthServiceImpl implements AuthService {
         }
 
         this.validateVerificationEmail(emailVerificationJpa);
-
     }
 
     private void validateVerificationEmail(EmailVerificationJpa emailVerificationJpa) {
@@ -118,10 +118,10 @@ public class AuthServiceImpl implements AuthService {
             log.info("Verify user email: {}", emailVerificationJpa.getUser().getEmail());
 
             var userJpa = emailVerificationJpa.getUser();
+
             userJpaRepository.updateEnabled(userJpa.getId());
 
         }
-
     }
 
 }

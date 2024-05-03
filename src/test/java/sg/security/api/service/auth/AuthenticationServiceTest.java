@@ -29,6 +29,7 @@ import sg.security.api.entity.email.EmailVerificationJpa;
 import sg.security.api.entity.role.RoleJpa;
 import sg.security.api.entity.user.UserJpa;
 import sg.security.api.event.EmailEvent;
+import sg.security.api.exception.EmailVerificationExpiredException;
 import sg.security.api.exception.EmailVerifyException;
 import sg.security.api.exception.UserNotFoundException;
 import sg.security.api.mapper.UserMapper;
@@ -223,12 +224,11 @@ class AuthenticationServiceTest {
 
             EmailVerificationJpa emailVerificationJpa = emailVerificationJpaData.get(1);
             emailVerificationJpa.setUser(userJpa);
-            emailVerificationJpa.setExpirationTime(LocalDateTime.now());
 
             when(AuthenticationServiceTest.this.emailVerificationJpaRepository.findByToken(anyString())).thenReturn(Optional.of(emailVerificationJpa));
 
 
-            AuthenticationServiceTest.this.authService.sendEmailConfirmation(emailVerificationJpa.getToken());
+            assertThrows(EmailVerificationExpiredException.class, () -> AuthenticationServiceTest.this.authService.sendEmailConfirmation(emailVerificationJpa.getToken()));
 
 
             verify(AuthenticationServiceTest.this.emailVerificationJpaRepository).findByToken(anyString());

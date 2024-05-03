@@ -17,7 +17,6 @@ public class UserJpaData {
 
     private final Map<Integer, UserJpa> dataMap;
 
-
     private final PasswordEncoder passwordEncoder;
 
     public UserJpaData() {

@@ -14,7 +14,6 @@ public final class Constants {
     public static final int EXPIRATION_TIME = 60 * 20;
 
 
-
     private Constants() {
         throw new UnsupportedOperationException("Not instantiable class!");
     }

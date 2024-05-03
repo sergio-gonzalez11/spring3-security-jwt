@@ -9,6 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
+import static sg.security.api.constant.Constants.EXPIRATION_TIME;
+
 public class EmailVerificationJpaData {
 
     private final AtomicInteger keyGenerator;
@@ -32,7 +34,8 @@ public class EmailVerificationJpaData {
         final EmailVerificationJpa element = new EmailVerificationJpa();
         element.setId(nextId);
         element.setToken("token_" + nextId);
-        element.setExpirationTime(LocalDateTime.now());
+        element.setCreatedAt(LocalDateTime.now());
+        element.setExpirationTime(LocalDateTime.now().plusMinutes(EXPIRATION_TIME));
         return element;
     }
 

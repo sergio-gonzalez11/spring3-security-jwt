@@ -29,6 +29,7 @@ import sg.security.api.entity.email.EmailVerificationJpa;
 import sg.security.api.entity.role.RoleJpa;
 import sg.security.api.entity.user.UserJpa;
 import sg.security.api.event.EmailEvent;
+import sg.security.api.exception.EmailVerifyException;
 import sg.security.api.exception.UserNotFoundException;
 import sg.security.api.mapper.UserMapper;
 import sg.security.api.repository.email.EmailVerificationJpaRepository;
@@ -194,15 +195,12 @@ class AuthenticationServiceTest {
     class EmailConfirmation {
 
         @Test
-        void sendEmailConfirmationNotExpiratedIsOk() throws Exception {
-
-            int EXPIRATION_TIME = 15;
+        void sendEmailConfirmationNotExpiratedIsOk() {
 
             UserJpa userJpa = userJpaData.get(1);
             userJpa.setIsEnabled(Boolean.FALSE);
 
             EmailVerificationJpa emailVerificationJpa = emailVerificationJpaData.get(1);
-            emailVerificationJpa.setExpirationTime(LocalDateTime.now().plusMinutes(EXPIRATION_TIME));
             emailVerificationJpa.setUser(userJpa);
 
             when(AuthenticationServiceTest.this.emailVerificationJpaRepository.findByToken(anyString())).thenReturn(Optional.of(emailVerificationJpa));
@@ -218,7 +216,7 @@ class AuthenticationServiceTest {
         }
 
         @Test
-        void sendEmailConfirmationExpiratedIsOk() throws Exception {
+        void sendEmailConfirmationExpiratedIsOk() {
 
             UserJpa userJpa = userJpaData.get(1);
             userJpa.setIsEnabled(Boolean.FALSE);
@@ -249,7 +247,7 @@ class AuthenticationServiceTest {
             when(AuthenticationServiceTest.this.emailVerificationJpaRepository.findByToken(anyString())).thenReturn(Optional.of(emailVerificationJpa));
 
 
-            assertThrows(Exception.class, () -> AuthenticationServiceTest.this.authService.sendEmailConfirmation(emailVerificationJpa.getToken()));
+            assertThrows(EmailVerifyException.class, () -> AuthenticationServiceTest.this.authService.sendEmailConfirmation(emailVerificationJpa.getToken()));
 
 
             verify(AuthenticationServiceTest.this.emailVerificationJpaRepository).findByToken(anyString());

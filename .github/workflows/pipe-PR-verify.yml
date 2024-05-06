@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'alpine'
+          distribution: 'temurin'
 
       - name: Check lombok properties
         run: |
@@ -64,7 +64,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'alpine'
+          distribution: 'temurin'
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v3

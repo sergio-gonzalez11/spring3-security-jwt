@@ -1,11 +1,8 @@
 
-FROM eclipse-temurin:17-jdk-alpine
+FROM openjdk:17-jdk-alpine
 
-ARG PROFILE=dev
+ARG JAR_FILE=target/*.jar
 
-VOLUME /tmp
+COPY ${JAR_FILE} app.jar
 
-ARG JAR_FILE
-COPY ${JAR_FILE} api.jar
-
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=${PROFILE}", "/api.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]

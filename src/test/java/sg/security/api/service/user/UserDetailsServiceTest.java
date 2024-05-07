@@ -1,4 +1,4 @@
-package sg.security.api.service;
+package sg.security.api.service.user;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import sg.security.api.data.dto.UserData;
 import sg.security.api.data.jpa.UserJpaData;
 import sg.security.api.repository.user.UserJpaRepository;
-import sg.security.api.service.user.UserDetailsServiceImpl;
 
 import java.util.Optional;
 

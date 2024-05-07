@@ -1,4 +1,4 @@
-package sg.security.api.validator.email;
+package sg.security.api.dto.email;
 
 import lombok.Getter;
 

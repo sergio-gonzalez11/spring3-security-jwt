@@ -1,4 +1,4 @@
-package sg.security.api.service;
+package sg.security.api.service.user;
 
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,6 @@ import sg.security.api.entity.user.UserJpa;
 import sg.security.api.exception.UserNotFoundException;
 import sg.security.api.mapper.UserMapper;
 import sg.security.api.repository.user.UserJpaRepository;
-import sg.security.api.service.user.UserServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -196,7 +195,7 @@ class UserServiceTest {
 
             when(UserServiceTest.this.repository.findById(anyInt())).thenReturn(Optional.empty());
 
-            assertThrows(UserNotFoundException.class, () -> UserServiceTest.this.service.update(1, null));
+            assertThrows(UserNotFoundException.class, () -> UserServiceTest.this.service.update(1, userData.get(1)));
 
             verify(UserServiceTest.this.repository).findById(anyInt());
 

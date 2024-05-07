@@ -44,13 +44,11 @@ class UserControllerTest {
     UserService userService;
     @Mock
     EmailVerificationService emailVerificationService;
-
     @Mock
     RoleMapper roleMapper;
     MockMvc mockMvc;
 
     LoginRequest loginRequest;
-
 
     LoginRequestData loginRequestData;
 

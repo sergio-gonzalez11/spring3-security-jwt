@@ -1,4 +1,4 @@
-package sg.security.api.service;
+package sg.security.api.service.email;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -17,7 +17,6 @@ import sg.security.api.entity.user.UserJpa;
 import sg.security.api.exception.EmailVerificationNotFoundException;
 import sg.security.api.mapper.EmailVerificationMapper;
 import sg.security.api.repository.email.EmailVerificationJpaRepository;
-import sg.security.api.service.email.EmailVerificationServiceImpl;
 
 import java.util.Optional;
 
@@ -97,23 +96,6 @@ class EmailVerificationServiceTest {
 
         @Test
         void save() {
-
-            UserJpa userJpa = userJpaData.get(1);
-
-            EmailVerificationJpa emailVerificationJpa = emailVerificationJpaData.get(1);
-            emailVerificationJpa.setUser(userJpa);
-
-            when(EmailVerificationServiceTest.this.mapper.toJPA(any(EmailVerification.class))).thenReturn(emailVerificationJpaData.get(1));
-            when(EmailVerificationServiceTest.this.repository.save(any(EmailVerificationJpa.class))).thenReturn(emailVerificationJpa);
-
-            service.saveEmailVerification(emailVerificationData.get(1).getUser(), emailVerificationData.get(1).getToken());
-
-            verify(EmailVerificationServiceTest.this.mapper).toJPA(any(EmailVerification.class));
-            verify(EmailVerificationServiceTest.this.repository).save(any(EmailVerificationJpa.class));
-        }
-
-        @Test
-        void saveObject() {
 
             UserJpa userJpa = userJpaData.get(1);
 

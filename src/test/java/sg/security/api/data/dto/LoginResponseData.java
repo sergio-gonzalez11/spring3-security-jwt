@@ -29,7 +29,7 @@ public class LoginResponseData {
     private LoginResponse generate() {
         final Integer nextId = this.keyGenerator.getAndIncrement();
         return LoginResponse.builder()
-                .token("TOKEN_" + nextId)
+                .token("token_" + nextId)
                 .expiresIn(nextId)
                 .build();
     }

@@ -29,37 +29,45 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAllUsers() {
-        return repository.findAllUsers().stream().map(mapper::toDTO).toList();
+        return repository.findAllUsers().stream()
+                .map(mapper::toDTO)
+                .toList();
     }
 
     @Override
     public User findById(Integer userId) {
-        return repository.findById(userId).map(mapper::toDTO).orElseThrow(() -> new UserNotFoundException(userId));
+        return repository.findById(userId)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new UserNotFoundException(userId));
     }
 
     @Override
     public User findByEmail(String email) {
-        return repository.findByEmail(email).map(mapper::toDTO).orElseThrow(() -> new UserNotFoundException(email));
+        return repository.findByEmail(email)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new UserNotFoundException(email));
     }
 
     @Override
     public User findByUsername(String username) {
-        return repository.findByUsername(username).map(mapper::toDTO).orElseThrow(() -> new UserNotFoundException(username));
+        return repository.findByUsername(username)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new UserNotFoundException(username));
     }
 
     @Override
     @Transactional
     public void update(Integer userId, User user) {
-        repository.findById(userId).map(request -> {
 
-            request.setFirstname(user.getFirstname());
-            request.setLastname(user.getLastname());
-            request.setEmail(user.getEmail());
-            request.setBirthdate(user.getBirthdate());
+        UserJpa request = repository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
-            return repository.save(request);
+        request.setFirstname(user.getFirstname());
+        request.setLastname(user.getLastname());
+        request.setEmail(user.getEmail());
+        request.setBirthdate(user.getBirthdate());
 
-        }).orElseThrow(() -> new UserNotFoundException(userId));
+        repository.save(request);
     }
 
     @Override
@@ -87,7 +95,6 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-
         repository.updatePassword(user.getId(), user.getPassword());
     }
 
@@ -95,8 +102,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void delete(String username) {
 
-        var user = repository
-                .findByUsername(username).map(mapper::toDTO).orElseThrow(() -> new UserNotFoundException(username));
+        var user = repository.findByUsername(username)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new UserNotFoundException(username));
 
         repository.deleteById(user.getId());
     }

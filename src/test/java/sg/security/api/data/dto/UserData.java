@@ -31,11 +31,11 @@ public class UserData {
         final Integer nextId = this.keyGenerator.getAndIncrement();
         return User.builder()
                 .id(nextId)
-                .firstname("FIRSTNAME_" + nextId)
-                .lastname("LASTNAME_" + nextId)
-                .username("USERNAME_" + nextId)
-                .password("PASSWORD_" + nextId)
-                .email("EMAIL_" + nextId)
+                .firstname("firstname_" + nextId)
+                .lastname("lastname_" + nextId)
+                .username("username_" + nextId)
+                .password("password_" + nextId)
+                .email("email_" + nextId + "@gmail.com")
                 .birthdate(LocalDate.now())
                 .build();
     }

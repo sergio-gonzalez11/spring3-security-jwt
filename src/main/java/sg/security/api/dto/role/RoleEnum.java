@@ -27,11 +27,6 @@ public enum RoleEnum {
         throw new IllegalArgumentException("Invalid role name: " + roleName);
     }
 
-    public static boolean hasRole(List<RoleEnum> userRoles, String roleName) {
-        RoleEnum role = findByRoleName(roleName);
-        return userRoles.contains(role);
-    }
-
     public static List<String> getAllRoleNames() {
         return Arrays.stream(RoleEnum.values())
                 .map(RoleEnum::getRoleName)

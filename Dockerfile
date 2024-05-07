@@ -1,8 +1,11 @@
 
 FROM openjdk:17-jdk-alpine
 
-ARG JAR_FILE=target/*.jar
+ARG PROFILE=dev
 
-COPY ${JAR_FILE} app.jar
+VOLUME /tmp
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ARG JAR_FILE
+COPY ${JAR_FILE} api.jar
+
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=${PROFILE}", "/api.jar"]
